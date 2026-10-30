@@ -1,0 +1,1 @@
+dataset_id,task,patient_group_id,recording_id,audio_path,channel,segment_start_s,segment_end_s,label,label_source,split,device,auscultation_site,native_sample_rate_hz,quality_note

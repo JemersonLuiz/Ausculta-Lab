@@ -1,0 +1,24 @@
+# Base completa e características derivadas ficam no computador local.
+/data/raw/*
+/data/processed/*
+
+# Pesos, metadados e exemplos distribuídos fazem parte do projeto.
+# Não ignorar models/: a demonstração depende desses artefatos.
+
+# Ambientes e arquivos temporários de Python/notebooks.
+.venv/
+__pycache__/
+.ipynb_checkpoints/
+*.pyc
+.pytest_cache/
+.playwright-cli/
+*.egg-info/
+/release/
+/output/
+
+# Configurações privadas e credenciais locais.
+.env
+.env.*
+!.env.example
+*.pem
+*.key

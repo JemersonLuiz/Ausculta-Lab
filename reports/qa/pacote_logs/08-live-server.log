@@ -1,0 +1,14 @@
+Ausculta Lab: http://127.0.0.1:8771
+INFO:     Started server process [12784]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8771 (Press CTRL+C to quit)
+INFO:     127.0.0.1:63453 - "GET /api/status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63456 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63457 - "GET /style.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63458 - "GET /app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63459 - "GET /api/examples HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63460 - "GET /api/examples/0/audio HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63461 - "POST /api/analyze HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63462 - "POST /api/analyze HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63463 - "POST /api/analyze HTTP/1.1" 422 Unprocessable Content

@@ -1,0 +1,40 @@
+{
+  "model_sha256": "aa69b383ae7b5a1cd4585a0dcc8d9e3a8ad6244cd3b84a3bb2d5db1110d03650",
+  "checks": [
+    "modelo real carregado e metadados disponíveis",
+    "inferência real repetida; API igual à inferência direta em todos os exemplos",
+    "arquivo inválido rejeitado sem previsão"
+  ],
+  "examples": [
+    {
+      "id": "0",
+      "annotated_label": "Sem sibilos/estertores",
+      "predicted_label": "Sem sibilos/estertores",
+      "repeated_output_identical": true,
+      "api_matches_direct_inference": true
+    },
+    {
+      "id": "1",
+      "annotated_label": "Estertores",
+      "predicted_label": "Sibilos",
+      "repeated_output_identical": true,
+      "api_matches_direct_inference": true
+    },
+    {
+      "id": "2",
+      "annotated_label": "Sibilos",
+      "predicted_label": "Sibilos",
+      "repeated_output_identical": true,
+      "api_matches_direct_inference": true
+    },
+    {
+      "id": "3",
+      "annotated_label": "Ambos",
+      "predicted_label": "Sibilos",
+      "repeated_output_identical": true,
+      "api_matches_direct_inference": true
+    }
+  ],
+  "synthetic_data_used_for_metrics": false,
+  "passed": true
+}

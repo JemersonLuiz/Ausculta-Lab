@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ausculta-lab"
+version = "1.0.0"
+description = "Protótipo acadêmico local de classificação de ciclos respiratórios"
+requires-python = ">=3.11,<3.15"
+dependencies = [
+  "numpy", "scipy", "soundfile", "pandas", "scikit-learn", "torch",
+  "fastapi", "uvicorn", "python-multipart", "pillow"
+]
+
+[project.optional-dependencies]
+test = ["pytest", "httpx"]
+reports = ["matplotlib"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-ra"
+

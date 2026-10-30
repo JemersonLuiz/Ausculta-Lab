@@ -1,0 +1,46 @@
+{
+  "version": "1.0.0",
+  "name": "CNN respiratória compacta",
+  "task": "pulmonar_4_classes",
+  "classes": [
+    "Sem sibilos/estertores",
+    "Estertores",
+    "Sibilos",
+    "Ambos"
+  ],
+  "feature_config": {
+    "version": "logmel-v1",
+    "sample_rate": 4000,
+    "n_fft": 256,
+    "hop_length": 64,
+    "n_mels": 64,
+    "time_bins": 256,
+    "dynamic_range_db": 80.0,
+    "temporal_policy": "interpolate_whole_cycle_no_crop"
+  },
+  "architecture": "Conv(16)-Conv(32)-Conv(64)-AdaptivePool(4,8)-FC64-FC4",
+  "parameters": 154804,
+  "trained_at": "2026-10-26T23:54:25.817530+00:00",
+  "seed": 42,
+  "best_epoch": 6,
+  "epochs_executed": 12,
+  "maximum_epochs": 18,
+  "batch_size": 32,
+  "optimizer": "AdamW",
+  "learning_rate": 0.0007,
+  "class_weights": [
+    0.49018004536628723,
+    0.7951327562332153,
+    2.3157217502593994,
+    3.697530746459961
+  ],
+  "weights_sha256": "aa69b383ae7b5a1cd4585a0dcc8d9e3a8ad6244cd3b84a3bb2d5db1110d03650",
+  "manifest_sha256": "f32575d2c5a808753fc6b5dc4ac8417623365b76561f7bc32560f7c24bf55523",
+  "python": "3.13.2",
+  "torch": "2.14.1+cpu",
+  "numpy": "2.5.4",
+  "training_seconds": 263.32483889999276,
+  "clinical_validation": false,
+  "arrhythmia_available": false,
+  "cache_quantization": "none; float32 in training and inference"
+}

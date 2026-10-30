@@ -1,0 +1,18 @@
+["C:\\Users\\User\\AppData\\Local\\Temp\\al-8xebgvg3\\AuscultaLab\\.venv\\Scripts\\python.exe", "-m", "pip", "install", "--no-deps", "-e", "."]
+Obtaining file:///C:/Users/User/AppData/Local/Temp/al-8xebgvg3/AuscultaLab
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Getting requirements to build editable: started
+  Getting requirements to build editable: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: ausculta-lab
+  Building editable for ausculta-lab (pyproject.toml): started
+  Building editable for ausculta-lab (pyproject.toml): finished with status 'done'
+  Created wheel for ausculta-lab: filename=ausculta_lab-1.0.0-0.editable-py3-none-any.whl size=1470 sha256=7001b402b8ace672f51337fd2dd642e2aeea5eb392a522857e1dce137515657e
+  Stored in directory: C:\Users\User\AppData\Local\Temp\pip-ephem-wheel-cache-drdfudlf\wheels\fc\be\43\48ec6376a8794a82f09ba16b85e65eea211d3a1bdeee7a3d08
+Successfully built ausculta-lab
+Installing collected packages: ausculta-lab
+Successfully installed ausculta-lab-1.0.0

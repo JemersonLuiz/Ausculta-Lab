@@ -1,0 +1,8 @@
+{
+  "tested_folder": "C:\\Users\\User\\OneDrive\\Documentos\\ChatGPT\\REA\\projeto-triagem-cardiopulmonar\\output\\package-check-ll3chmnz\\AuscultaLab",
+  "folder_characters": 118,
+  "returncode": 1,
+  "rejected_before_pip": true,
+  "installer_sha256": "39a5b6df71528caca575d0e185f7908934450a0fde7a4dae5749ae31f231da4a",
+  "message": "A pasta do projeto e longa demais para instalar o PyTorch neste Windows. Extraia o ZIP em uma pasta curta, por exemplo \nC:\\AuscultaLab ou uma pasta AuscultaLab diretamente no seu perfil de usuario, e execute INSTALAR.bat novamente. \nNenhuma configuracao do Windows foi alterada.\nNo C:\\Users\\User\\OneDrive\\Documentos\\ChatGPT\\REA\\projeto-triagem-cardiopulmonar\\output\\package-check-ll3chmnz\\AuscultaL\nab\\Instalar.ps1:5 caractere:5\n+     throw 'A pasta do projeto e longa demais para instalar o PyTorch  ...\n+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n    + CategoryInfo          : OperationStopped: (A pasta do proj...s foi alterada.:String) [], RuntimeException\n    + FullyQualifiedErrorId : A pasta do projeto e longa demais para instalar o PyTorch neste Windows. Extraia o ZIP e \n   m uma pasta curta, por exemplo C:\\AuscultaLab ou uma pasta AuscultaLab diretamente no seu perfil de usuario, e exe  \n  cute INSTALAR.bat novamente. Nenhuma configuracao do Windows foi alterada.\n \n"
+}

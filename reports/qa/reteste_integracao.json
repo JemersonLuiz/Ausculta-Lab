@@ -1,0 +1,46 @@
+{
+  "model_sha256": "aa69b383ae7b5a1cd4585a0dcc8d9e3a8ad6244cd3b84a3bb2d5db1110d03650",
+  "checks": [
+    "modelo real carregado e metadados disponíveis",
+    "inferência real repetida; API igual à inferência direta em todos os exemplos",
+    "arquivo inválido rejeitado sem previsão",
+    "WAVs originais do teste reprocessados; features, previsões e métricas reproduzidos"
+  ],
+  "examples": [
+    {
+      "id": "0",
+      "annotated_label": "Sem sibilos/estertores",
+      "predicted_label": "Sem sibilos/estertores",
+      "repeated_output_identical": true,
+      "api_matches_direct_inference": true
+    },
+    {
+      "id": "1",
+      "annotated_label": "Estertores",
+      "predicted_label": "Sibilos",
+      "repeated_output_identical": true,
+      "api_matches_direct_inference": true
+    },
+    {
+      "id": "2",
+      "annotated_label": "Sibilos",
+      "predicted_label": "Sibilos",
+      "repeated_output_identical": true,
+      "api_matches_direct_inference": true
+    },
+    {
+      "id": "3",
+      "annotated_label": "Ambos",
+      "predicted_label": "Sibilos",
+      "repeated_output_identical": true,
+      "api_matches_direct_inference": true
+    }
+  ],
+  "synthetic_data_used_for_metrics": false,
+  "max_abs_feature_difference": 1.9371509552001953e-07,
+  "feature_absolute_tolerance": 4.76837158203125e-07,
+  "full_test_cycles": 2756,
+  "raw_wav_features_match_training_cache": true,
+  "full_test_predictions_identical": true,
+  "passed": true
+}

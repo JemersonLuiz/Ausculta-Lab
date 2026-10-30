@@ -1,0 +1,292 @@
+{
+  "started_utc": "2026-10-27T00:10:14.644850+00:00",
+  "archive": "C:\\Users\\User\\OneDrive\\Documentos\\ChatGPT\\REA\\projeto-triagem-cardiopulmonar\\release\\AuscultaLab-v1.0.0.zip",
+  "archive_sha256": "1a58658dbf33ba5042188dbe5ca738d7828397daaae53e2538fc404590b17d52",
+  "source_fingerprint": {
+    "sha256": "ffceea743559162e96c62afc77847b1d4e6179ca0c3f6eeeea8180ac3eeb7533",
+    "files": {
+      "INICIAR.bat": "e45823a61780ff0594d41193a0d510ef35784a5a9141427ad805087a4ab92727",
+      "INSTALAR.bat": "b09461a62c99f229ef213abf08cb92cfd6bba10b61f97e70d6586196b7320043",
+      "Iniciar.ps1": "0b22df18f09b7b1175962854ac5a6c508db437752225002d47463646020c1b5b",
+      "Instalar.ps1": "39a5b6df71528caca575d0e185f7908934450a0fde7a4dae5749ae31f231da4a",
+      "data/manifest.audit.json": "686e5fc8bf438dbda74ae2ac5704fe5e5178d340a4cdd9b31824a2bfb0194ad5",
+      "data/manifest.csv": "f32575d2c5a808753fc6b5dc4ac8417623365b76561f7bc32560f7c24bf55523",
+      "examples/ciclo_teste_0.wav": "9d4bcf88d0cfb536beb3c09e072fc1493b077113838a1d698f97dddfa59635eb",
+      "examples/ciclo_teste_1.wav": "f15608f8fc4591737329dac24321a4a3fe3ee05e224c26ba2ec9649af5e4e563",
+      "examples/ciclo_teste_2.wav": "f0ac31c1ee3520d34c8b5fce69b222c9dd242ab07bed7ae8f38bb94e67dec965",
+      "examples/ciclo_teste_3.wav": "b7f38526ba19819770c9adaa7ef5c379b9345a75ec4416da3c062b40ae6a297e",
+      "examples/index.json": "87e00bbb0b1b7aeeea08a31c36a542478e2adb808a8ac800a292503a2078b427",
+      "models/baseline.joblib": "d870a5761fbc6ed01463921909141a0e5b3a2043e1176fb3dbba004d5f67c3a5",
+      "models/cnn.pt": "aa69b383ae7b5a1cd4585a0dcc8d9e3a8ad6244cd3b84a3bb2d5db1110d03650",
+      "models/dataset.json": "57e4b6cd24b56464a8e9b4fc2510da83b4a90c16d150b51eb6d143d96e8c0cd0",
+      "models/metrics.json": "d28c568a3ce75b6e68e6b2259f6680b09b17962aa66075c58098dc8471b35e80",
+      "models/model.json": "bbb4745f56cae2ed15b34f0d2832bd852ff6f93588023e10db6cf9b0efea734d",
+      "pyproject.toml": "43e79260303f3b3f1d57956e1fbc72b1cf0305f652b0e6191c95b71c09f78c39",
+      "reports/test_predictions.csv": "bbd4fd537ba86a3e273d430fa5a42f97b3c3252d0387117d2998227aea19fcc5",
+      "requirements.lock.txt": "00f93bdbaf2e9df17c4c02ffe93882d2827028852ba4ff9b4661a173efd18de8",
+      "run.py": "f2c1f804e118e82cfa32034fdc7cc80fc442d04e345c7361d46680bbbd71384d",
+      "scripts/download_data.py": "b15df8c27af9b99cd89331238973fcb6fbbdfbadcc38e26d955dcd42175efe32",
+      "scripts/package_project.py": "b1cea0ec8d8887d76e34487e0badc803d93b43f6ab018490b4ee6f0f66104997",
+      "scripts/retest.py": "a6c0603fc2b16a107ddf257efe6ffa404f5263262bcb4c19b139e88000668dc9",
+      "scripts/train.py": "24fcc1785736bc2196fe0b0667a7f023f5c35fffa8eccee07127d6265d650c1d",
+      "scripts/verify_package.py": "6ca8359035a6a40f6eb4ee36c5de5cd1a2e477242a42922e52e41d1f3eac0268",
+      "scripts/write_report.py": "9be544740b213fb6c3744a35c81b8e31d65e06048ed4f3eee55a7a6a916786bf",
+      "src/cardio_audio/__init__.py": "a378760e12c64e46ba7463f6e794bf1b8ebd7a427f66afbe03d0d8996aca0854",
+      "src/cardio_audio/api.py": "982c7bf9a5f09c1ecc6af3ec8b55c91489da43fc9cd262f1a1cefe3842f773ab",
+      "src/cardio_audio/audio.py": "2f04d01493086c0b90b2f3a5a05f2f841fcf9cd6947852ba125904ee78297af0",
+      "src/cardio_audio/data.py": "b302f47956975f32fb59c78e9aec8bcd1b50b3325bf9cc6b62330c6553271f68",
+      "src/cardio_audio/metrics.py": "6517c43564e63841ab4c524cd8c4d46eb80a80cd637417f96e689fd11d7d208c",
+      "src/cardio_audio/model.py": "9897611c9cda8bb196bb8be478360aa375c51f816202873aed2c0fa3746a616a",
+      "src/cardio_audio/predictor.py": "6e801ba4aaae2ab871fc2ab2dde473d7af58650bda1f6f88140b7bb7b6054fd5",
+      "tests/conftest.py": "e0e0477028fd17761639c0bd0dcc904ab2f8f3deb901155c3d4bec714717cd7b",
+      "tests/test_api.py": "96ece67de69a1c28195cbc899bac3fe95d8d27f0208d8b53a4a90712522f1f69",
+      "tests/test_audio.py": "d12c95c72ea7108b706bcf1c32a5c9d61353b04061ade5899934e2850b92c213",
+      "tests/test_data.py": "9f4d2622d5ed26239166c143806a176bf55437c89b44e26002dc4112fcc31928",
+      "tests/test_download.py": "e0006786e4b0e1c44c4b99273a3d7d5b6e59edd45cd73ede78768012df702057",
+      "tests/test_metrics.py": "e6526b627f8aba753f439fabc0271eb49889e49b22b4d5233e4ed4309b2d3de6",
+      "tests/test_predictor.py": "523d35359412eaa150a11499686e7d2d00ec58d5a2d697d101a7242c2b11ebed",
+      "tests/test_real_artifacts.py": "7cec2078297e716100eaebedac73b4f18f9081bb5c989b6bc667ac89fad97d95",
+      "web/app.js": "1e74f16b66313e53181cdcaf64d3023401f605c46b46618663ff1b93ad854842",
+      "web/index.html": "df1cb6a41a13e35adc887c0159ea73be77fd1e189ac06ce175fa9f39e44ae423",
+      "web/style.css": "5fadc1271b477da61765eeffe9e3a82876a6d0f7acdf3b65f91ec5c0064779d5"
+    },
+    "scope": "code, UI, models, dependencies, launchers, examples, manifests and test predictions; excludes docs/reports except test_predictions.csv"
+  },
+  "steps": [
+    {
+      "command": [
+        "C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+        "-m",
+        "venv",
+        "C:\\Users\\User\\AppData\\Local\\Temp\\al-8xebgvg3\\AuscultaLab\\.venv"
+      ],
+      "log": "C:\\Users\\User\\OneDrive\\Documentos\\ChatGPT\\REA\\projeto-triagem-cardiopulmonar\\reports\\qa\\package-check-al-8xebgvg3\\01-create-venv.log",
+      "returncode": 0,
+      "seconds": 3.744
+    },
+    {
+      "command": [
+        "C:\\Users\\User\\AppData\\Local\\Temp\\al-8xebgvg3\\AuscultaLab\\.venv\\Scripts\\python.exe",
+        "-m",
+        "pip",
+        "install",
+        "-r",
+        "requirements.lock.txt"
+      ],
+      "log": "C:\\Users\\User\\OneDrive\\Documentos\\ChatGPT\\REA\\projeto-triagem-cardiopulmonar\\reports\\qa\\package-check-al-8xebgvg3\\02-install-lock.log",
+      "returncode": 0,
+      "seconds": 69.44
+    },
+    {
+      "command": [
+        "C:\\Users\\User\\AppData\\Local\\Temp\\al-8xebgvg3\\AuscultaLab\\.venv\\Scripts\\python.exe",
+        "-m",
+        "pip",
+        "install",
+        "--no-deps",
+        "-e",
+        "."
+      ],
+      "log": "C:\\Users\\User\\OneDrive\\Documentos\\ChatGPT\\REA\\projeto-triagem-cardiopulmonar\\reports\\qa\\package-check-al-8xebgvg3\\03-install-project.log",
+      "returncode": 0,
+      "seconds": 6.162
+    },
+    {
+      "command": [
+        "C:\\Users\\User\\AppData\\Local\\Temp\\al-8xebgvg3\\AuscultaLab\\.venv\\Scripts\\python.exe",
+        "-m",
+        "pip",
+        "check"
+      ],
+      "log": "C:\\Users\\User\\OneDrive\\Documentos\\ChatGPT\\REA\\projeto-triagem-cardiopulmonar\\reports\\qa\\package-check-al-8xebgvg3\\04-pip-check.log",
+      "returncode": 0,
+      "seconds": 0.688
+    },
+    {
+      "command": [
+        "C:\\Users\\User\\AppData\\Local\\Temp\\al-8xebgvg3\\AuscultaLab\\.venv\\Scripts\\python.exe",
+        "-c",
+        "import cardio_audio,json,sys; print(json.dumps({'module':cardio_audio.__file__,'prefix':sys.prefix,'base_prefix':sys.base_prefix,'version':sys.version}))"
+      ],
+      "log": "C:\\Users\\User\\OneDrive\\Documentos\\ChatGPT\\REA\\projeto-triagem-cardiopulmonar\\reports\\qa\\package-check-al-8xebgvg3\\05-import-proof.log",
+      "returncode": 0,
+      "seconds": 0.074
+    },
+    {
+      "command": [
+        "C:\\Users\\User\\AppData\\Local\\Temp\\al-8xebgvg3\\AuscultaLab\\.venv\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "tests",
+        "-q",
+        "--require-real-artifacts",
+        "--junitxml=C:\\Users\\User\\AppData\\Local\\Temp\\al-8xebgvg3\\AuscultaLab\\reports\\qa\\pacote_novo_ambiente.xml"
+      ],
+      "log": "C:\\Users\\User\\OneDrive\\Documentos\\ChatGPT\\REA\\projeto-triagem-cardiopulmonar\\reports\\qa\\package-check-al-8xebgvg3\\06-pytest.log",
+      "returncode": 0,
+      "seconds": 8.629
+    },
+    {
+      "command": [
+        "C:\\Users\\User\\AppData\\Local\\Temp\\al-8xebgvg3\\AuscultaLab\\.venv\\Scripts\\python.exe",
+        "scripts/retest.py",
+        "--output",
+        "C:\\Users\\User\\AppData\\Local\\Temp\\al-8xebgvg3\\AuscultaLab\\reports\\qa\\pacote_reteste_leve.json"
+      ],
+      "log": "C:\\Users\\User\\OneDrive\\Documentos\\ChatGPT\\REA\\projeto-triagem-cardiopulmonar\\reports\\qa\\package-check-al-8xebgvg3\\07-light-retest.log",
+      "returncode": 0,
+      "seconds": 3.835
+    }
+  ],
+  "passed": true,
+  "logs_directory": "C:\\Users\\User\\OneDrive\\Documentos\\ChatGPT\\REA\\projeto-triagem-cardiopulmonar\\reports\\qa\\package-check-al-8xebgvg3",
+  "workspace_policy": "Fresh direct short TEMP extraction and in-copy venv; logs retained in source reports/qa.",
+  "archive_integrity": {
+    "zip_crc_passed": true,
+    "safe_paths": true,
+    "checked_files": 89
+  },
+  "extracted_project": "C:\\Users\\User\\AppData\\Local\\Temp\\al-8xebgvg3\\AuscultaLab",
+  "execution_project": "C:\\Users\\User\\AppData\\Local\\Temp\\al-8xebgvg3\\AuscultaLab",
+  "copied_fingerprint": {
+    "sha256": "ffceea743559162e96c62afc77847b1d4e6179ca0c3f6eeeea8180ac3eeb7533",
+    "files": {
+      "INICIAR.bat": "e45823a61780ff0594d41193a0d510ef35784a5a9141427ad805087a4ab92727",
+      "INSTALAR.bat": "b09461a62c99f229ef213abf08cb92cfd6bba10b61f97e70d6586196b7320043",
+      "Iniciar.ps1": "0b22df18f09b7b1175962854ac5a6c508db437752225002d47463646020c1b5b",
+      "Instalar.ps1": "39a5b6df71528caca575d0e185f7908934450a0fde7a4dae5749ae31f231da4a",
+      "data/manifest.audit.json": "686e5fc8bf438dbda74ae2ac5704fe5e5178d340a4cdd9b31824a2bfb0194ad5",
+      "data/manifest.csv": "f32575d2c5a808753fc6b5dc4ac8417623365b76561f7bc32560f7c24bf55523",
+      "examples/ciclo_teste_0.wav": "9d4bcf88d0cfb536beb3c09e072fc1493b077113838a1d698f97dddfa59635eb",
+      "examples/ciclo_teste_1.wav": "f15608f8fc4591737329dac24321a4a3fe3ee05e224c26ba2ec9649af5e4e563",
+      "examples/ciclo_teste_2.wav": "f0ac31c1ee3520d34c8b5fce69b222c9dd242ab07bed7ae8f38bb94e67dec965",
+      "examples/ciclo_teste_3.wav": "b7f38526ba19819770c9adaa7ef5c379b9345a75ec4416da3c062b40ae6a297e",
+      "examples/index.json": "87e00bbb0b1b7aeeea08a31c36a542478e2adb808a8ac800a292503a2078b427",
+      "models/baseline.joblib": "d870a5761fbc6ed01463921909141a0e5b3a2043e1176fb3dbba004d5f67c3a5",
+      "models/cnn.pt": "aa69b383ae7b5a1cd4585a0dcc8d9e3a8ad6244cd3b84a3bb2d5db1110d03650",
+      "models/dataset.json": "57e4b6cd24b56464a8e9b4fc2510da83b4a90c16d150b51eb6d143d96e8c0cd0",
+      "models/metrics.json": "d28c568a3ce75b6e68e6b2259f6680b09b17962aa66075c58098dc8471b35e80",
+      "models/model.json": "bbb4745f56cae2ed15b34f0d2832bd852ff6f93588023e10db6cf9b0efea734d",
+      "pyproject.toml": "43e79260303f3b3f1d57956e1fbc72b1cf0305f652b0e6191c95b71c09f78c39",
+      "reports/test_predictions.csv": "bbd4fd537ba86a3e273d430fa5a42f97b3c3252d0387117d2998227aea19fcc5",
+      "requirements.lock.txt": "00f93bdbaf2e9df17c4c02ffe93882d2827028852ba4ff9b4661a173efd18de8",
+      "run.py": "f2c1f804e118e82cfa32034fdc7cc80fc442d04e345c7361d46680bbbd71384d",
+      "scripts/download_data.py": "b15df8c27af9b99cd89331238973fcb6fbbdfbadcc38e26d955dcd42175efe32",
+      "scripts/package_project.py": "b1cea0ec8d8887d76e34487e0badc803d93b43f6ab018490b4ee6f0f66104997",
+      "scripts/retest.py": "a6c0603fc2b16a107ddf257efe6ffa404f5263262bcb4c19b139e88000668dc9",
+      "scripts/train.py": "24fcc1785736bc2196fe0b0667a7f023f5c35fffa8eccee07127d6265d650c1d",
+      "scripts/verify_package.py": "6ca8359035a6a40f6eb4ee36c5de5cd1a2e477242a42922e52e41d1f3eac0268",
+      "scripts/write_report.py": "9be544740b213fb6c3744a35c81b8e31d65e06048ed4f3eee55a7a6a916786bf",
+      "src/cardio_audio/__init__.py": "a378760e12c64e46ba7463f6e794bf1b8ebd7a427f66afbe03d0d8996aca0854",
+      "src/cardio_audio/api.py": "982c7bf9a5f09c1ecc6af3ec8b55c91489da43fc9cd262f1a1cefe3842f773ab",
+      "src/cardio_audio/audio.py": "2f04d01493086c0b90b2f3a5a05f2f841fcf9cd6947852ba125904ee78297af0",
+      "src/cardio_audio/data.py": "b302f47956975f32fb59c78e9aec8bcd1b50b3325bf9cc6b62330c6553271f68",
+      "src/cardio_audio/metrics.py": "6517c43564e63841ab4c524cd8c4d46eb80a80cd637417f96e689fd11d7d208c",
+      "src/cardio_audio/model.py": "9897611c9cda8bb196bb8be478360aa375c51f816202873aed2c0fa3746a616a",
+      "src/cardio_audio/predictor.py": "6e801ba4aaae2ab871fc2ab2dde473d7af58650bda1f6f88140b7bb7b6054fd5",
+      "tests/conftest.py": "e0e0477028fd17761639c0bd0dcc904ab2f8f3deb901155c3d4bec714717cd7b",
+      "tests/test_api.py": "96ece67de69a1c28195cbc899bac3fe95d8d27f0208d8b53a4a90712522f1f69",
+      "tests/test_audio.py": "d12c95c72ea7108b706bcf1c32a5c9d61353b04061ade5899934e2850b92c213",
+      "tests/test_data.py": "9f4d2622d5ed26239166c143806a176bf55437c89b44e26002dc4112fcc31928",
+      "tests/test_download.py": "e0006786e4b0e1c44c4b99273a3d7d5b6e59edd45cd73ede78768012df702057",
+      "tests/test_metrics.py": "e6526b627f8aba753f439fabc0271eb49889e49b22b4d5233e4ed4309b2d3de6",
+      "tests/test_predictor.py": "523d35359412eaa150a11499686e7d2d00ec58d5a2d697d101a7242c2b11ebed",
+      "tests/test_real_artifacts.py": "7cec2078297e716100eaebedac73b4f18f9081bb5c989b6bc667ac89fad97d95",
+      "web/app.js": "1e74f16b66313e53181cdcaf64d3023401f605c46b46618663ff1b93ad854842",
+      "web/index.html": "df1cb6a41a13e35adc887c0159ea73be77fd1e189ac06ce175fa9f39e44ae423",
+      "web/style.css": "5fadc1271b477da61765eeffe9e3a82876a6d0f7acdf3b65f91ec5c0064779d5"
+    },
+    "scope": "code, UI, models, dependencies, launchers, examples, manifests and test predictions; excludes docs/reports except test_predictions.csv"
+  },
+  "base_python": "C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+  "import_proof": {
+    "module": "C:\\Users\\User\\AppData\\Local\\Temp\\al-8xebgvg3\\AuscultaLab\\src\\cardio_audio\\__init__.py",
+    "prefix": "C:\\Users\\User\\AppData\\Local\\Temp\\al-8xebgvg3\\AuscultaLab\\.venv",
+    "base_prefix": "C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python313",
+    "version": "3.13.2 (tags/v3.13.2:4f8bb39, Feb  4 2025, 15:23:48) [MSC v.1942 64 bit (AMD64)]"
+  },
+  "pytest": {
+    "tests": 105,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "light_retest": {
+    "model_sha256": "aa69b383ae7b5a1cd4585a0dcc8d9e3a8ad6244cd3b84a3bb2d5db1110d03650",
+    "checks": [
+      "modelo real carregado e metadados disponíveis",
+      "inferência real repetida; API igual à inferência direta em todos os exemplos",
+      "arquivo inválido rejeitado sem previsão"
+    ],
+    "examples": [
+      {
+        "id": "0",
+        "annotated_label": "Sem sibilos/estertores",
+        "predicted_label": "Sem sibilos/estertores",
+        "repeated_output_identical": true,
+        "api_matches_direct_inference": true
+      },
+      {
+        "id": "1",
+        "annotated_label": "Estertores",
+        "predicted_label": "Sibilos",
+        "repeated_output_identical": true,
+        "api_matches_direct_inference": true
+      },
+      {
+        "id": "2",
+        "annotated_label": "Sibilos",
+        "predicted_label": "Sibilos",
+        "repeated_output_identical": true,
+        "api_matches_direct_inference": true
+      },
+      {
+        "id": "3",
+        "annotated_label": "Ambos",
+        "predicted_label": "Sibilos",
+        "repeated_output_identical": true,
+        "api_matches_direct_inference": true
+      }
+    ],
+    "synthetic_data_used_for_metrics": false,
+    "passed": true
+  },
+  "live_server": {
+    "url": "http://127.0.0.1:8771",
+    "log": "C:\\Users\\User\\OneDrive\\Documentos\\ChatGPT\\REA\\projeto-triagem-cardiopulmonar\\reports\\qa\\package-check-al-8xebgvg3\\08-live-server.log",
+    "pid": 30520,
+    "root_status": 200,
+    "status_model_ready": true,
+    "static_assets_ok": true,
+    "example_id": "0",
+    "prediction_repeated_identically": true,
+    "invalid_upload_status": 422,
+    "passed": true,
+    "own_server_stopped": true
+  },
+  "finished_utc": "2026-10-27T00:11:51.003407+00:00",
+  "portable_evidence_files": {
+    "reports/qa/pacote_logs/01-create-venv.log": "a5f78e2d7beebf08bececc070b2dadd60c12fe81290c3583109f00f5becf8428",
+    "reports/qa/pacote_logs/02-install-lock.log": "8385af507737843468f1b7b09aebccd8e3859f8b390eddada1c70cae7b3d22c9",
+    "reports/qa/pacote_logs/03-install-project.log": "0824dffc965b7369ad75103be64ef4339f136a67485018bd22a1a1a00a27250f",
+    "reports/qa/pacote_logs/04-pip-check.log": "beb32315d6219bef551bd0ec4aca90a411b946a47f5d862aad791bf64d020532",
+    "reports/qa/pacote_logs/05-import-proof.log": "f10721586929a3e6b1b6c24bb5cc69e1dcce4b0c334dea95167e41c46323c0fa",
+    "reports/qa/pacote_logs/06-pytest.log": "9f5a37aaa07955872a19b5c99db67d0a2fb822a46a40781b8926d7855e9fde7f",
+    "reports/qa/pacote_logs/07-light-retest.log": "18a1e7534f291e4fbb123b363c1ed478ec8aaa84354e41bf55d351deef2c8c6d",
+    "reports/qa/pacote_logs/08-live-server.log": "8424acb088e23285ba03d02a9cba334df35fe61d871b3b2f13b86b463659da6a",
+    "reports/qa/pacote_logs/pacote_novo_ambiente.xml": "75f4d2702b481ff5f70568f40d6d3648820f61c8f6d2de77bf07a37899380069",
+    "reports/qa/pacote_logs/pacote_reteste_leve.json": "7c035ab7fec73fee8656903b724664344b2728511e5fffd647b9a817ad251f0b",
+    "reports/qa/pacote_logs/CHECKSUMS.sha256": "1e1f0d3659d6bde8ab74234b12b194404beeca26ecf938d44c7b3b512a095cfc",
+    "reports/qa/pacote_logs/tentativa1-windows-path-too-long.log": "a2c1868b26b3510c3cdb3b995ff0f85fffc512e770741fe305e3b27b75316360"
+  },
+  "previous_attempts": [
+    {
+      "report": "reports/qa/pacote_extraido_tentativa1.json",
+      "outcome": "failed Windows deep-path torch installation; retained and addressed"
+    },
+    {
+      "report": "reports/qa/pacote_extraido_tentativa2_cancelada.json",
+      "outcome": "cancelled to replace junction approach with direct short TEMP extraction"
+    }
+  ]
+}

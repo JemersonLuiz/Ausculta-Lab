@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="Laboratório local de classificação de sons respiratórios com redes neurais convolucionais.">
+  <title>Ausculta Lab · Análise de sons respiratórios</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23087f76'/%3E%3Cpath d='M3 17h6l3-8 5 15 4-11 3 4h5' fill='none' stroke='white' stroke-width='2'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#analysis">Ir para a análise</a>
+  <aside class="sidebar" aria-label="Navegação principal">
+    <a class="brand" href="#top" aria-label="Ausculta Lab, início">
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M3 17h6l3-8 5 15 4-11 3 4h5"/></svg></span>
+      <span>Ausculta<span class="brand-light">Lab</span><small>PESQUISA EM ÁUDIO BIOMÉDICO</small></span>
+    </a>
+    <div class="sidebar-label">ESPAÇO DE TRABALHO</div>
+    <nav class="navigation">
+      <a class="nav-link active" href="#analysis"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13h3l3-7 4 13 3-8 2 2h2"/></svg>Análise de áudio<span>01</span></a>
+      <a class="nav-link" href="#evidence"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V10m7 10V4m7 16v-7"/></svg>Modelo e evidências<span>02</span></a>
+      <a class="nav-link" href="#protocol"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H5v18h14V3h-3M9 2h6v4H9zM8 11h8M8 15h6"/></svg>Protocolo do estudo<span>03</span></a>
+    </nav>
+    <div class="sidebar-note"><span class="tiny-dot"></span>Aplicação de pesquisa local<p>Classificação de padrões acústicos em ciclos respiratórios.</p><span class="version-label" id="appVersion">Versão em verificação</span></div>
+  </aside>
+
+  <div class="workspace" id="top">
+    <header class="topbar"><span class="breadcrumb">Laboratório <span>/</span> <strong>Análise respiratória</strong></span><span class="local-badge"><span></span>AMBIENTE LOCAL</span></header>
+    <main>
+      <section class="page-intro" aria-labelledby="pageTitle">
+        <div><p class="eyebrow">INTELIGÊNCIA ARTIFICIAL APLICADA À AUSCULTA</p><h1 id="pageTitle">Do som ao padrão.</h1><p class="intro-description">Explore uma gravação, selecione um ciclo respiratório e veja a classificação produzida pelo modelo.</p></div>
+        <div class="intro-status"><span class="status-pill checking" id="modelState"><span class="status-dot"></span><span id="modelStateText">Verificando modelo</span></span><span class="intro-caption">Protótipo acadêmico · módulo pulmonar</span></div>
+      </section>
+
+      <div id="globalMessage" class="message hidden" role="alert"></div>
+
+      <section class="summary-grid" aria-label="Resumo do estudo">
+        <article class="summary-card"><span class="summary-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 6c0-2 16-2 16 0v12c0 2-16 2-16 0zM4 6c0 2 16 2 16 0M4 12c0 2 16 2 16 0"/></svg></span><div><span class="summary-label">Dados do estudo</span><strong id="datasetValue">—</strong><span id="datasetDetail">Aguardando metadados da base</span></div></article>
+        <article class="summary-card"><span class="summary-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 3h8v4h4v10h-4v4H8v-4H4V7h4zM9 9h6v6H9z"/></svg></span><div><span class="summary-label">Modelo de classificação</span><strong id="modelValue">—</strong><span id="modelDetail">Disponibilidade em verificação</span></div></article>
+        <article class="summary-card"><span class="summary-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19h16M6 15l4-5 4 3 5-8M15 5h4v4"/></svg></span><div><span class="summary-label">Macro-F1 no teste</span><strong id="metricValue">—</strong><span id="metricDetail">Resultado ainda não registrado</span></div></article>
+      </section>
+
+      <section class="analysis-grid" id="analysis" aria-label="Análise de áudio">
+        <article class="panel input-panel">
+          <div class="panel-heading"><div><span class="step-label">ETAPA 01</span><h2>Prepare o áudio</h2></div><span class="format-tag">WAV</span></div>
+          <div class="dropzone" id="dropzone"><div class="upload-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 16V4m-4 4 4-4 4 4M4 15v5h16v-5"/></svg></div><strong>Arraste sua gravação para cá</strong><p>ou escolha um arquivo no computador</p><button class="button button-secondary" type="button" id="uploadButton">Selecionar arquivo</button><small id="uploadLimits">Arquivo WAV · até 20 MB · mono ou estéreo</small><input type="file" id="audioFile" accept=".wav,audio/wav,audio/x-wav" class="visually-hidden" aria-label="Selecionar gravação WAV"></div>
+          <div class="example-row"><div><span class="example-label">Comece com um exemplo real</span><small>Arquivo reservado no conjunto de teste</small></div><div class="example-controls"><select id="exampleSelect" aria-label="Escolher exemplo do conjunto de teste" disabled><option value="">Carregando exemplos…</option></select><button class="button button-quiet" id="loadExample" type="button" disabled>Carregar</button></div></div>
+
+          <div id="audioWorkspace" class="audio-workspace hidden">
+            <div class="file-info"><span class="file-symbol" aria-hidden="true">♪</span><div><strong id="fileName">—</strong><span id="fileMeta">—</span></div><button class="icon-button" type="button" id="clearFile" aria-label="Remover arquivo" title="Remover arquivo">×</button></div>
+            <div class="waveform-wrap"><canvas id="waveform" height="150" aria-label="Forma de onda do áudio com destaque do trecho selecionado"></canvas><div class="waveform-axis"><span>0 s</span><span id="waveformEnd">—</span></div></div>
+            <audio id="audioPlayer" controls preload="metadata" aria-label="Ouvir a gravação selecionada"></audio>
+            <div class="segment-heading"><h3>Delimite uma respiração</h3><button class="text-button" id="playSegment" type="button">Ouvir trecho <span aria-hidden="true">↗</span></button></div>
+            <div class="segment-inputs"><label for="startTime">Início <span>(segundos)</span><input id="startTime" type="number" value="0" min="0" step="0.01" inputmode="decimal"></label><label for="endTime">Fim <span>(segundos)</span><input id="endTime" type="number" min="0.01" step="0.01" inputmode="decimal"></label><div class="segment-duration"><span>Duração do trecho</span><strong id="segmentDuration">—</strong></div></div>
+            <p class="field-error hidden" id="segmentError" role="alert"></p>
+            <label class="confirmation"><input type="checkbox" id="cycleConfirmed"><span>O trecho selecionado corresponde a um ciclo respiratório (até 20 segundos).</span></label>
+            <p class="reference-note hidden" id="referenceNote"></p>
+          </div>
+          <div class="input-footer"><button class="button button-primary" type="button" id="analyzeButton" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13h3l3-7 4 13 3-8 2 2h2"/></svg><span id="analyzeButtonText">Analisar ciclo respiratório</span><span class="button-arrow" aria-hidden="true">→</span></button><p id="analyzeHelp">Selecione um áudio e confirme os limites do ciclo para começar.</p></div>
+        </article>
+
+        <article class="panel result-panel" aria-labelledby="resultTitle">
+          <div class="panel-heading"><div><span class="step-label">ETAPA 02</span><h2 id="resultTitle">Explore o resultado</h2></div><span class="outline-tag" id="resultTag">AGUARDANDO ÁUDIO</span></div>
+          <div class="result-empty" id="resultEmpty"><div class="empty-art" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><h3>Um novo olhar sobre o som</h3><p>A classificação, as pontuações e o espectrograma aparecerão aqui após a análise.</p><div class="class-preview"><span>Sem sibilos/estertores</span><span>Estertores</span><span>Sibilos</span><span>Ambos</span></div></div>
+          <div class="analysis-progress hidden" id="analysisProgress" role="status" aria-live="polite"><span class="spinner"></span><strong>Processando o ciclo respiratório</strong><p>Preparando o sinal e aplicando o modelo salvo.</p></div>
+          <div id="resultContent" class="result-content hidden" aria-live="polite">
+            <div class="prediction-block"><p class="eyebrow">CATEGORIA PREVISTA</p><h3 id="predictionLabel">—</h3><p id="predictionMeta">—</p></div>
+            <div class="scores-heading"><h3>Pontuações do modelo</h3><span>0–100%</span></div><div class="score-list" id="scoreList"></div><p class="score-explanation">As pontuações representam a saída do classificador. Não são probabilidades clínicas de doença.</p>
+            <div class="spectrogram-heading"><h3>Espectrograma do trecho</h3><span>tempo × frequência</span></div><div class="spectrogram-box"><img id="spectrogramImage" alt="Espectrograma do ciclo respiratório analisado"><p id="spectrogramUnavailable" class="hidden">Espectrograma não fornecido pelo processamento.</p></div>
+            <div class="quality-message hidden" id="qualityMessage"></div>
+            <button class="text-button download-result" id="downloadResult" type="button">Salvar resultado em JSON <span aria-hidden="true">↓</span></button>
+          </div>
+          <div class="research-note"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7h.01"/></svg><p><strong>Interpretação acústica.</strong> A classificação de um ciclo não estabelece diagnóstico nem comprova detecção clínica precoce.</p></div>
+        </article>
+      </section>
+
+      <section class="evidence-section" id="evidence" aria-labelledby="evidenceTitle"><div class="section-heading"><div><p class="eyebrow">TRANSPARÊNCIA DO EXPERIMENTO</p><h2 id="evidenceTitle">Modelo, dados e limites.</h2></div><button class="text-button" id="refreshStatus" type="button">Atualizar informações <span aria-hidden="true">↻</span></button></div><div class="evidence-grid"><article class="panel evidence-card"><div class="evidence-title"><span class="number-dot">01</span><h3>Ficha do modelo</h3></div><dl id="modelFacts"><div><dt>Situação</dt><dd>Em verificação</dd></div></dl></article><article class="panel evidence-card"><div class="evidence-title"><span class="number-dot">02</span><h3>Avaliação registrada</h3></div><dl id="metricFacts"><div><dt>Resultados</dt><dd>Aguardando registros</dd></div></dl><p class="small-note">Métricas exibidas somente quando fornecidas pelo experimento salvo.</p></article><article class="panel evidence-card limitations-card"><div class="evidence-title"><span class="number-dot">03</span><h3>Limites de uso</h3></div><ul id="limitationsList"><li>Protótipo de pesquisa, sem validação clínica para uso assistencial.</li><li>O áudio precisa conter um ciclo respiratório delimitado.</li><li>O módulo de arritmia não está disponível nesta versão.</li></ul></article></div></section>
+
+      <section class="protocol-section panel" id="protocol" aria-labelledby="protocolTitle"><div class="protocol-intro"><p class="eyebrow">COMO FUNCIONA</p><h2 id="protocolTitle">Um fluxo que pode ser examinado.</h2><p>A rede aprende com exemplos anotados. Na utilização, aplica os parâmetros salvos a um trecho selecionado.</p></div><ol class="protocol-steps"><li><span>01</span><div><h3>Áudio e anotação</h3><p>Ciclos e categorias com origem registrada.</p></div></li><li><span>02</span><div><h3>Representação</h3><p>Preparação do sinal e espectrograma log-Mel.</p></div></li><li><span>03</span><div><h3>Modelo treinado</h3><p>CNN aplicada sem reaprender durante a análise.</p></div></li><li><span>04</span><div><h3>Avaliação separada</h3><p>Treino, validação e teste agrupados por paciente.</p></div></li></ol></section>
+      <footer class="page-footer"><span>Ausculta Lab <span>·</span> Pesquisa em sinais biológicos</span><span>Dados locais. Resultados rastreáveis.</span></footer>
+    </main>
+  </div>
+</body>
+</html>

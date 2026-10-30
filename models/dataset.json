@@ -1,0 +1,40 @@
+{
+  "name": "ICBHI 2017",
+  "patients": 126,
+  "recordings": 907,
+  "cycles": 6781,
+  "splits": {
+    "train": {
+      "patients": 62,
+      "cycles": 3594,
+      "class_counts": [
+        1833,
+        1130,
+        388,
+        243
+      ]
+    },
+    "validation": {
+      "patients": 15,
+      "cycles": 431,
+      "class_counts": [
+        220,
+        56,
+        98,
+        57
+      ]
+    },
+    "test": {
+      "patients": 49,
+      "cycles": 2756,
+      "class_counts": [
+        1579,
+        649,
+        385,
+        143
+      ]
+    }
+  },
+  "split_protocol": "teste oficial preservado; gravações de treino de pacientes presentes no teste excluídas; validação interna por paciente",
+  "manifest_sha256": "f32575d2c5a808753fc6b5dc4ac8417623365b76561f7bc32560f7c24bf55523"
+}

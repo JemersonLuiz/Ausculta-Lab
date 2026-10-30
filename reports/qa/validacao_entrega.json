@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "verified_utc": "2026-10-27T00:14:41.642636+00:00",
+  "runtime_fingerprint": "ffceea743559162e96c62afc77847b1d4e6179ca0c3f6eeeea8180ac3eeb7533",
+  "independent_test_rounds": [
+    105,
+    105
+  ],
+  "fresh_environment_tests": {
+    "tests": 105,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "raw_test_cycles_reprocessed": 2756,
+  "raw_predictions_identical": true,
+  "ui_real_tests_passed": true,
+  "model_clinically_validated": false,
+  "arrhythmia_implemented": false,
+  "full_dataset_bundled": false
+}

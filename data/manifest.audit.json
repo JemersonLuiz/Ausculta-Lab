@@ -1,0 +1,242 @@
+{
+  "dataset_id": "ICBHI2017",
+  "seed": 42,
+  "split_protocol": "official_test_overlap_train_excluded_validation_20pct_of_training",
+  "official_split_path": "C:\\Users\\User\\OneDrive\\Documentos\\ChatGPT\\REA\\projeto-triagem-cardiopulmonar\\data\\raw\\icbhi\\ICBHI_challenge_train_test.txt",
+  "official_overlap_policy": "exclude_train",
+  "official_overlap_patients": [
+    "156",
+    "218"
+  ],
+  "official_overlap_train_exclusions": [
+    {
+      "recording_id": "156_2b3_Ar_mc_AKGC417L",
+      "patient_id": "156",
+      "original_split": "train",
+      "reason": "official_patient_overlap_train_excluded",
+      "excluded_cycle_count": 6
+    },
+    {
+      "recording_id": "156_2b3_Ll_mc_AKGC417L",
+      "patient_id": "156",
+      "original_split": "train",
+      "reason": "official_patient_overlap_train_excluded",
+      "excluded_cycle_count": 6
+    },
+    {
+      "recording_id": "156_2b3_Pr_mc_AKGC417L",
+      "patient_id": "156",
+      "original_split": "train",
+      "reason": "official_patient_overlap_train_excluded",
+      "excluded_cycle_count": 6
+    },
+    {
+      "recording_id": "156_5b3_Al_mc_AKGC417L",
+      "patient_id": "156",
+      "original_split": "train",
+      "reason": "official_patient_overlap_train_excluded",
+      "excluded_cycle_count": 9
+    },
+    {
+      "recording_id": "156_5b3_Lr_mc_AKGC417L",
+      "patient_id": "156",
+      "original_split": "train",
+      "reason": "official_patient_overlap_train_excluded",
+      "excluded_cycle_count": 9
+    },
+    {
+      "recording_id": "156_5b3_Pr_mc_AKGC417L",
+      "patient_id": "156",
+      "original_split": "train",
+      "reason": "official_patient_overlap_train_excluded",
+      "excluded_cycle_count": 9
+    },
+    {
+      "recording_id": "156_8b3_Ar_mc_AKGC417L",
+      "patient_id": "156",
+      "original_split": "train",
+      "reason": "official_patient_overlap_train_excluded",
+      "excluded_cycle_count": 8
+    },
+    {
+      "recording_id": "156_8b3_Ll_mc_AKGC417L",
+      "patient_id": "156",
+      "original_split": "train",
+      "reason": "official_patient_overlap_train_excluded",
+      "excluded_cycle_count": 8
+    },
+    {
+      "recording_id": "156_8b3_Pl_mc_AKGC417L",
+      "patient_id": "156",
+      "original_split": "train",
+      "reason": "official_patient_overlap_train_excluded",
+      "excluded_cycle_count": 8
+    },
+    {
+      "recording_id": "218_1b1_Ar_sc_Meditron",
+      "patient_id": "218",
+      "original_split": "train",
+      "reason": "official_patient_overlap_train_excluded",
+      "excluded_cycle_count": 16
+    },
+    {
+      "recording_id": "218_1b1_Lr_sc_Meditron",
+      "patient_id": "218",
+      "original_split": "train",
+      "reason": "official_patient_overlap_train_excluded",
+      "excluded_cycle_count": 19
+    },
+    {
+      "recording_id": "218_1p1_Ar_sc_Litt3200",
+      "patient_id": "218",
+      "original_split": "train",
+      "reason": "official_patient_overlap_train_excluded",
+      "excluded_cycle_count": 6
+    },
+    {
+      "recording_id": "218_1p1_Pr_sc_Litt3200",
+      "patient_id": "218",
+      "original_split": "train",
+      "reason": "official_patient_overlap_train_excluded",
+      "excluded_cycle_count": 7
+    }
+  ],
+  "raw_recordings": 920,
+  "raw_patients": 126,
+  "raw_cycles": 6898,
+  "excluded_cycle_count": 117,
+  "official_overlap_excluded_cycle_count": 117,
+  "valid_cycles": 6781,
+  "splits": {
+    "test": {
+      "patients": 49,
+      "recordings": 381,
+      "cycles": 2756,
+      "classes": {
+        "0": 1579,
+        "1": 649,
+        "2": 385,
+        "3": 143
+      }
+    },
+    "train": {
+      "patients": 62,
+      "recordings": 467,
+      "cycles": 3594,
+      "classes": {
+        "0": 1833,
+        "1": 1130,
+        "2": 388,
+        "3": 243
+      }
+    },
+    "validation": {
+      "patients": 15,
+      "recordings": 59,
+      "cycles": 431,
+      "classes": {
+        "0": 220,
+        "1": 56,
+        "2": 98,
+        "3": 57
+      }
+    }
+  },
+  "excluded": [
+    {
+      "recording_id": "156_2b3_Ar_mc_AKGC417L",
+      "patient_id": "156",
+      "original_split": "train",
+      "reason": "official_patient_overlap_train_excluded",
+      "excluded_cycle_count": 6
+    },
+    {
+      "recording_id": "156_2b3_Ll_mc_AKGC417L",
+      "patient_id": "156",
+      "original_split": "train",
+      "reason": "official_patient_overlap_train_excluded",
+      "excluded_cycle_count": 6
+    },
+    {
+      "recording_id": "156_2b3_Pr_mc_AKGC417L",
+      "patient_id": "156",
+      "original_split": "train",
+      "reason": "official_patient_overlap_train_excluded",
+      "excluded_cycle_count": 6
+    },
+    {
+      "recording_id": "156_5b3_Al_mc_AKGC417L",
+      "patient_id": "156",
+      "original_split": "train",
+      "reason": "official_patient_overlap_train_excluded",
+      "excluded_cycle_count": 9
+    },
+    {
+      "recording_id": "156_5b3_Lr_mc_AKGC417L",
+      "patient_id": "156",
+      "original_split": "train",
+      "reason": "official_patient_overlap_train_excluded",
+      "excluded_cycle_count": 9
+    },
+    {
+      "recording_id": "156_5b3_Pr_mc_AKGC417L",
+      "patient_id": "156",
+      "original_split": "train",
+      "reason": "official_patient_overlap_train_excluded",
+      "excluded_cycle_count": 9
+    },
+    {
+      "recording_id": "156_8b3_Ar_mc_AKGC417L",
+      "patient_id": "156",
+      "original_split": "train",
+      "reason": "official_patient_overlap_train_excluded",
+      "excluded_cycle_count": 8
+    },
+    {
+      "recording_id": "156_8b3_Ll_mc_AKGC417L",
+      "patient_id": "156",
+      "original_split": "train",
+      "reason": "official_patient_overlap_train_excluded",
+      "excluded_cycle_count": 8
+    },
+    {
+      "recording_id": "156_8b3_Pl_mc_AKGC417L",
+      "patient_id": "156",
+      "original_split": "train",
+      "reason": "official_patient_overlap_train_excluded",
+      "excluded_cycle_count": 8
+    },
+    {
+      "recording_id": "218_1b1_Ar_sc_Meditron",
+      "patient_id": "218",
+      "original_split": "train",
+      "reason": "official_patient_overlap_train_excluded",
+      "excluded_cycle_count": 16
+    },
+    {
+      "recording_id": "218_1b1_Lr_sc_Meditron",
+      "patient_id": "218",
+      "original_split": "train",
+      "reason": "official_patient_overlap_train_excluded",
+      "excluded_cycle_count": 19
+    },
+    {
+      "recording_id": "218_1p1_Ar_sc_Litt3200",
+      "patient_id": "218",
+      "original_split": "train",
+      "reason": "official_patient_overlap_train_excluded",
+      "excluded_cycle_count": 6
+    },
+    {
+      "recording_id": "218_1p1_Pr_sc_Litt3200",
+      "patient_id": "218",
+      "original_split": "train",
+      "reason": "official_patient_overlap_train_excluded",
+      "excluded_cycle_count": 7
+    }
+  ],
+  "duplicate_recordings_removed": [],
+  "pcm_duplicate_check": "sha256_float32_little_endian_with_samplerate_and_channels",
+  "patient_overlap": false,
+  "audio_content_overlap": false
+}

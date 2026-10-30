@@ -1,0 +1,415 @@
+{
+  "cnn": {
+    "validation": {
+      "n_cycles": 431,
+      "accuracy": 0.5730858468677494,
+      "balanced_accuracy": 0.510635354620317,
+      "macro_f1": 0.48716400346835126,
+      "confusion_matrix": [
+        [
+          150,
+          44,
+          16,
+          10
+        ],
+        [
+          16,
+          36,
+          1,
+          3
+        ],
+        [
+          15,
+          10,
+          48,
+          25
+        ],
+        [
+          13,
+          10,
+          21,
+          13
+        ]
+      ],
+      "classes": [
+        "Sem sibilos/estertores",
+        "Estertores",
+        "Sibilos",
+        "Ambos"
+      ],
+      "per_class": [
+        {
+          "label": "Sem sibilos/estertores",
+          "support": 220,
+          "sensitivity": 0.6818181818181818,
+          "specificity": 0.7914691943127962,
+          "precision": 0.7731958762886598,
+          "f1": 0.7246376811594203
+        },
+        {
+          "label": "Estertores",
+          "support": 56,
+          "sensitivity": 0.6428571428571429,
+          "specificity": 0.8293333333333334,
+          "precision": 0.36,
+          "f1": 0.46153846153846156
+        },
+        {
+          "label": "Sibilos",
+          "support": 98,
+          "sensitivity": 0.4897959183673469,
+          "specificity": 0.8858858858858859,
+          "precision": 0.5581395348837209,
+          "f1": 0.5217391304347826
+        },
+        {
+          "label": "Ambos",
+          "support": 57,
+          "sensitivity": 0.22807017543859648,
+          "specificity": 0.8983957219251337,
+          "precision": 0.2549019607843137,
+          "f1": 0.24074074074074073
+        }
+      ],
+      "icbhi_sensitivity": 0.4597156398104265,
+      "icbhi_specificity": 0.6818181818181818,
+      "icbhi_score": 0.5707669108143041,
+      "evaluation_unit": "ciclo respiratório",
+      "specificity_definition": "um-contra-os-demais por classe",
+      "icbhi_definition": "média entre acerto dos ciclos sem eventos e acerto da categoria exata nos ciclos com eventos"
+    },
+    "test": {
+      "n_cycles": 2756,
+      "accuracy": 0.43577648766328014,
+      "balanced_accuracy": 0.3299264249452633,
+      "macro_f1": 0.32163268950388957,
+      "confusion_matrix": [
+        [
+          825,
+          413,
+          277,
+          64
+        ],
+        [
+          284,
+          253,
+          38,
+          74
+        ],
+        [
+          170,
+          73,
+          103,
+          39
+        ],
+        [
+          63,
+          27,
+          33,
+          20
+        ]
+      ],
+      "classes": [
+        "Sem sibilos/estertores",
+        "Estertores",
+        "Sibilos",
+        "Ambos"
+      ],
+      "per_class": [
+        {
+          "label": "Sem sibilos/estertores",
+          "support": 1579,
+          "sensitivity": 0.5224825839138696,
+          "specificity": 0.5607476635514018,
+          "precision": 0.6147540983606558,
+          "f1": 0.5648750427935638
+        },
+        {
+          "label": "Estertores",
+          "support": 649,
+          "sensitivity": 0.3898305084745763,
+          "specificity": 0.7565258661604176,
+          "precision": 0.3302872062663185,
+          "f1": 0.3575971731448763
+        },
+        {
+          "label": "Sibilos",
+          "support": 385,
+          "sensitivity": 0.2675324675324675,
+          "specificity": 0.8532264867144664,
+          "precision": 0.22838137472283815,
+          "f1": 0.24641148325358853
+        },
+        {
+          "label": "Ambos",
+          "support": 143,
+          "sensitivity": 0.13986013986013987,
+          "specificity": 0.9322617680826636,
+          "precision": 0.10152284263959391,
+          "f1": 0.11764705882352941
+        }
+      ],
+      "icbhi_sensitivity": 0.31945624468988953,
+      "icbhi_specificity": 0.5224825839138696,
+      "icbhi_score": 0.42096941430187956,
+      "evaluation_unit": "ciclo respiratório",
+      "specificity_definition": "um-contra-os-demais por classe",
+      "icbhi_definition": "média entre acerto dos ciclos sem eventos e acerto da categoria exata nos ciclos com eventos",
+      "macro_f1_ci95": {
+        "metric": "macro_f1",
+        "lower": 0.2736987999156499,
+        "upper": 0.3685714320478143,
+        "confidence": 0.95,
+        "method": "bootstrap por paciente",
+        "patients": 49,
+        "repetitions": 500,
+        "seed": 42
+      }
+    }
+  },
+  "random_forest": {
+    "validation": {
+      "n_cycles": 431,
+      "accuracy": 0.5916473317865429,
+      "balanced_accuracy": 0.43080936920222634,
+      "macro_f1": 0.41260951530937506,
+      "confusion_matrix": [
+        [
+          181,
+          37,
+          2,
+          0
+        ],
+        [
+          36,
+          19,
+          1,
+          0
+        ],
+        [
+          32,
+          11,
+          55,
+          0
+        ],
+        [
+          37,
+          1,
+          19,
+          0
+        ]
+      ],
+      "classes": [
+        "Sem sibilos/estertores",
+        "Estertores",
+        "Sibilos",
+        "Ambos"
+      ],
+      "per_class": [
+        {
+          "label": "Sem sibilos/estertores",
+          "support": 220,
+          "sensitivity": 0.8227272727272728,
+          "specificity": 0.5023696682464455,
+          "precision": 0.6328671328671329,
+          "f1": 0.7154150197628458
+        },
+        {
+          "label": "Estertores",
+          "support": 56,
+          "sensitivity": 0.3392857142857143,
+          "specificity": 0.8693333333333333,
+          "precision": 0.27941176470588236,
+          "f1": 0.3064516129032258
+        },
+        {
+          "label": "Sibilos",
+          "support": 98,
+          "sensitivity": 0.5612244897959183,
+          "specificity": 0.933933933933934,
+          "precision": 0.7142857142857143,
+          "f1": 0.6285714285714286
+        },
+        {
+          "label": "Ambos",
+          "support": 57,
+          "sensitivity": 0.0,
+          "specificity": 1.0,
+          "precision": 0.0,
+          "f1": 0.0
+        }
+      ],
+      "icbhi_sensitivity": 0.35071090047393366,
+      "icbhi_specificity": 0.8227272727272728,
+      "icbhi_score": 0.5867190866006032,
+      "evaluation_unit": "ciclo respiratório",
+      "specificity_definition": "um-contra-os-demais por classe",
+      "icbhi_definition": "média entre acerto dos ciclos sem eventos e acerto da categoria exata nos ciclos com eventos"
+    },
+    "test": {
+      "n_cycles": 2756,
+      "accuracy": 0.5145137880986937,
+      "balanced_accuracy": 0.31180840820604244,
+      "macro_f1": 0.3098016442008861,
+      "confusion_matrix": [
+        [
+          1138,
+          277,
+          151,
+          13
+        ],
+        [
+          439,
+          190,
+          16,
+          4
+        ],
+        [
+          240,
+          53,
+          90,
+          2
+        ],
+        [
+          89,
+          22,
+          32,
+          0
+        ]
+      ],
+      "classes": [
+        "Sem sibilos/estertores",
+        "Estertores",
+        "Sibilos",
+        "Ambos"
+      ],
+      "per_class": [
+        {
+          "label": "Sem sibilos/estertores",
+          "support": 1579,
+          "sensitivity": 0.7207093096896771,
+          "specificity": 0.34749362786745963,
+          "precision": 0.5970619097586569,
+          "f1": 0.6530846484935438
+        },
+        {
+          "label": "Estertores",
+          "support": 649,
+          "sensitivity": 0.29275808936825887,
+          "specificity": 0.832937826293308,
+          "precision": 0.3505535055350554,
+          "f1": 0.31905961376994124
+        },
+        {
+          "label": "Sibilos",
+          "support": 385,
+          "sensitivity": 0.23376623376623376,
+          "specificity": 0.9160691691269507,
+          "precision": 0.31141868512110726,
+          "f1": 0.26706231454005935
+        },
+        {
+          "label": "Ambos",
+          "support": 143,
+          "sensitivity": 0.0,
+          "specificity": 0.9927286643704554,
+          "precision": 0.0,
+          "f1": 0.0
+        }
+      ],
+      "icbhi_sensitivity": 0.23789294817332202,
+      "icbhi_specificity": 0.7207093096896771,
+      "icbhi_score": 0.47930112893149956,
+      "evaluation_unit": "ciclo respiratório",
+      "specificity_definition": "um-contra-os-demais por classe",
+      "icbhi_definition": "média entre acerto dos ciclos sem eventos e acerto da categoria exata nos ciclos com eventos"
+    }
+  },
+  "majority_baseline": {
+    "test": {
+      "n_cycles": 2756,
+      "accuracy": 0.5729317851959361,
+      "balanced_accuracy": 0.25,
+      "macro_f1": 0.18212226066897347,
+      "confusion_matrix": [
+        [
+          1579,
+          0,
+          0,
+          0
+        ],
+        [
+          649,
+          0,
+          0,
+          0
+        ],
+        [
+          385,
+          0,
+          0,
+          0
+        ],
+        [
+          143,
+          0,
+          0,
+          0
+        ]
+      ],
+      "classes": [
+        "Sem sibilos/estertores",
+        "Estertores",
+        "Sibilos",
+        "Ambos"
+      ],
+      "per_class": [
+        {
+          "label": "Sem sibilos/estertores",
+          "support": 1579,
+          "sensitivity": 1.0,
+          "specificity": 0.0,
+          "precision": 0.5729317851959361,
+          "f1": 0.7284890426758939
+        },
+        {
+          "label": "Estertores",
+          "support": 649,
+          "sensitivity": 0.0,
+          "specificity": 1.0,
+          "precision": 0.0,
+          "f1": 0.0
+        },
+        {
+          "label": "Sibilos",
+          "support": 385,
+          "sensitivity": 0.0,
+          "specificity": 1.0,
+          "precision": 0.0,
+          "f1": 0.0
+        },
+        {
+          "label": "Ambos",
+          "support": 143,
+          "sensitivity": 0.0,
+          "specificity": 1.0,
+          "precision": 0.0,
+          "f1": 0.0
+        }
+      ],
+      "icbhi_sensitivity": 0.0,
+      "icbhi_specificity": 1.0,
+      "icbhi_score": 0.5,
+      "evaluation_unit": "ciclo respiratório",
+      "specificity_definition": "um-contra-os-demais por classe",
+      "icbhi_definition": "média entre acerto dos ciclos sem eventos e acerto da categoria exata nos ciclos com eventos"
+    }
+  },
+  "selection": {
+    "criterion": "validation_macro_f1",
+    "best_epoch": 6,
+    "seed": 42,
+    "test_used_for_selection": false,
+    "feature_cache": "float32, same representation as inference"
+  }
+}

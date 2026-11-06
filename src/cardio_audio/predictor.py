@@ -10,7 +10,7 @@ import numpy as np
 import torch
 
 from .audio import CLASS_NAMES, FEATURE_CONFIG, extract_features
-from .model import SmallCNN
+from .model import build_model
 
 
 class ModelUnavailableError(RuntimeError):
@@ -32,7 +32,7 @@ class Predictor:
             actual = hashlib.sha256(weights.read_bytes()).hexdigest()
             if actual != self.metadata.get("weights_sha256"):
                 raise ValueError("O checksum do modelo não confere.")
-            self.model = SmallCNN()
+            self.model = build_model(self.metadata.get("architecture_id", "small_cnn_v1"))
             self.model.load_state_dict(torch.load(weights, map_location="cpu", weights_only=True), strict=True)
             self.model.eval()
             if any(not torch.isfinite(value).all() for value in self.model.state_dict().values() if value.is_floating_point()):

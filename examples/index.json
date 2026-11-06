@@ -1,7 +1,7 @@
 [
   {
     "id": "0",
-    "name": "Exemplo de teste · Sem sibilos/estertores",
+    "name": "Sem sibilos/estertores · Exemplo 1",
     "label": "Sem sibilos/estertores",
     "start": 0.0,
     "end": 1.8709977324263039,
@@ -10,11 +10,11 @@
     "recording_id": "101_1b1_Al_sc_Meditron",
     "source_start_s": 0.579,
     "source_end_s": 2.45,
-    "selection": "primeiro ciclo elegível por classe; não selecionado pelo acerto"
+    "selection": "primeiro ciclo elegível por paciente e classe, em ordem fixa; não selecionado pelo acerto"
   },
   {
     "id": "1",
-    "name": "Exemplo de teste · Estertores",
+    "name": "Estertores · Exemplo 1",
     "label": "Estertores",
     "start": 0.0,
     "end": 1.56725,
@@ -23,11 +23,11 @@
     "recording_id": "104_1b1_Ll_sc_Litt3200",
     "source_start_s": 8.8287,
     "source_end_s": 10.396,
-    "selection": "primeiro ciclo elegível por classe; não selecionado pelo acerto"
+    "selection": "primeiro ciclo elegível por paciente e classe, em ordem fixa; não selecionado pelo acerto"
   },
   {
     "id": "2",
-    "name": "Exemplo de teste · Sibilos",
+    "name": "Sibilos · Exemplo 1",
     "label": "Sibilos",
     "start": 0.0,
     "end": 2.418,
@@ -36,11 +36,11 @@
     "recording_id": "104_1b1_Ar_sc_Litt3200",
     "source_start_s": 0.54469,
     "source_end_s": 2.9628,
-    "selection": "primeiro ciclo elegível por classe; não selecionado pelo acerto"
+    "selection": "primeiro ciclo elegível por paciente e classe, em ordem fixa; não selecionado pelo acerto"
   },
   {
     "id": "3",
-    "name": "Exemplo de teste · Ambos",
+    "name": "Ambos · Exemplo 1",
     "label": "Ambos",
     "start": 0.0,
     "end": 1.8955,
@@ -49,6 +49,162 @@
     "recording_id": "124_1b1_Al_sc_Litt3200",
     "source_start_s": 0.0,
     "source_end_s": 1.8954,
-    "selection": "primeiro ciclo elegível por classe; não selecionado pelo acerto"
+    "selection": "primeiro ciclo elegível por paciente e classe, em ordem fixa; não selecionado pelo acerto"
+  },
+  {
+    "id": "0-2",
+    "name": "Sem sibilos/estertores · Exemplo 2",
+    "label": "Sem sibilos/estertores",
+    "start": 0.0,
+    "end": 1.4720181405895691,
+    "file": "ciclo_teste_0-2.wav",
+    "patient_id": "102",
+    "recording_id": "102_1b1_Ar_sc_Meditron",
+    "source_start_s": 0.264,
+    "source_end_s": 1.736,
+    "selection": "primeiro ciclo elegível por paciente e classe, em ordem fixa; não selecionado pelo acerto"
+  },
+  {
+    "id": "0-3",
+    "name": "Sem sibilos/estertores · Exemplo 3",
+    "label": "Sem sibilos/estertores",
+    "start": 0.0,
+    "end": 1.877,
+    "file": "ciclo_teste_0-3.wav",
+    "patient_id": "104",
+    "recording_id": "104_1b1_Al_sc_Litt3200",
+    "source_start_s": 0.0,
+    "source_end_s": 1.8771,
+    "selection": "primeiro ciclo elegível por paciente e classe, em ordem fixa; não selecionado pelo acerto"
+  },
+  {
+    "id": "0-4",
+    "name": "Sem sibilos/estertores · Exemplo 4",
+    "label": "Sem sibilos/estertores",
+    "start": 0.0,
+    "end": 2.32875,
+    "file": "ciclo_teste_0-4.wav",
+    "patient_id": "109",
+    "recording_id": "109_1b1_Al_sc_Litt3200",
+    "source_start_s": 0.0,
+    "source_end_s": 2.3288,
+    "selection": "primeiro ciclo elegível por paciente e classe, em ordem fixa; não selecionado pelo acerto"
+  },
+  {
+    "id": "1-2",
+    "name": "Estertores · Exemplo 2",
+    "label": "Estertores",
+    "start": 0.0,
+    "end": 1.74925,
+    "file": "ciclo_teste_1-2.wav",
+    "patient_id": "109",
+    "recording_id": "109_1b1_Ll_sc_Litt3200",
+    "source_start_s": 1.9513,
+    "source_end_s": 3.7004,
+    "selection": "primeiro ciclo elegível por paciente e classe, em ordem fixa; não selecionado pelo acerto"
+  },
+  {
+    "id": "1-3",
+    "name": "Estertores · Exemplo 3",
+    "label": "Estertores",
+    "start": 0.0,
+    "end": 2.4519954648526077,
+    "file": "ciclo_teste_1-3.wav",
+    "patient_id": "133",
+    "recording_id": "133_2p2_Al_mc_AKGC417L",
+    "source_start_s": 7.387,
+    "source_end_s": 9.839,
+    "selection": "primeiro ciclo elegível por paciente e classe, em ordem fixa; não selecionado pelo acerto"
+  },
+  {
+    "id": "1-4",
+    "name": "Estertores · Exemplo 4",
+    "label": "Estertores",
+    "start": 0.0,
+    "end": 1.79625,
+    "file": "ciclo_teste_1-4.wav",
+    "patient_id": "139",
+    "recording_id": "139_1b1_Lr_sc_Litt3200",
+    "source_start_s": 2.4685,
+    "source_end_s": 4.2647,
+    "selection": "primeiro ciclo elegível por paciente e classe, em ordem fixa; não selecionado pelo acerto"
+  },
+  {
+    "id": "2-2",
+    "name": "Sibilos · Exemplo 2",
+    "label": "Sibilos",
+    "start": 0.0,
+    "end": 1.173,
+    "file": "ciclo_teste_2-2.wav",
+    "patient_id": "118",
+    "recording_id": "118_1b1_Al_sc_Litt3200",
+    "source_start_s": 0.93331,
+    "source_end_s": 2.1062,
+    "selection": "primeiro ciclo elegível por paciente e classe, em ordem fixa; não selecionado pelo acerto"
+  },
+  {
+    "id": "2-3",
+    "name": "Sibilos · Exemplo 3",
+    "label": "Sibilos",
+    "start": 0.0,
+    "end": 1.30525,
+    "file": "ciclo_teste_2-3.wav",
+    "patient_id": "124",
+    "recording_id": "124_1b1_Al_sc_Litt3200",
+    "source_start_s": 1.8954,
+    "source_end_s": 3.2007,
+    "selection": "primeiro ciclo elegível por paciente e classe, em ordem fixa; não selecionado pelo acerto"
+  },
+  {
+    "id": "2-4",
+    "name": "Sibilos · Exemplo 4",
+    "label": "Sibilos",
+    "start": 0.0,
+    "end": 2.619002267573696,
+    "file": "ciclo_teste_2-4.wav",
+    "patient_id": "133",
+    "recording_id": "133_2p4_Al_mc_AKGC417L",
+    "source_start_s": 13.161,
+    "source_end_s": 15.78,
+    "selection": "primeiro ciclo elegível por paciente e classe, em ordem fixa; não selecionado pelo acerto"
+  },
+  {
+    "id": "3-2",
+    "name": "Ambos · Exemplo 2",
+    "label": "Ambos",
+    "start": 0.0,
+    "end": 1.3460090702947847,
+    "file": "ciclo_teste_3-2.wav",
+    "patient_id": "133",
+    "recording_id": "133_3p2_Pl_mc_AKGC417L",
+    "source_start_s": 0.851,
+    "source_end_s": 2.197,
+    "selection": "primeiro ciclo elegível por paciente e classe, em ordem fixa; não selecionado pelo acerto"
+  },
+  {
+    "id": "3-3",
+    "name": "Ambos · Exemplo 3",
+    "label": "Ambos",
+    "start": 0.0,
+    "end": 1.977,
+    "file": "ciclo_teste_3-3.wav",
+    "patient_id": "139",
+    "recording_id": "139_1b1_Ll_sc_Litt3200",
+    "source_start_s": 1.9099,
+    "source_end_s": 3.8871,
+    "selection": "primeiro ciclo elegível por paciente e classe, em ordem fixa; não selecionado pelo acerto"
+  },
+  {
+    "id": "3-4",
+    "name": "Ambos · Exemplo 4",
+    "label": "Ambos",
+    "start": 0.0,
+    "end": 3.940997732426304,
+    "file": "ciclo_teste_3-4.wav",
+    "patient_id": "146",
+    "recording_id": "146_2b2_Pl_mc_AKGC417L",
+    "source_start_s": 8.375,
+    "source_end_s": 12.316,
+    "selection": "primeiro ciclo elegível por paciente e classe, em ordem fixa; não selecionado pelo acerto"
   }
 ]

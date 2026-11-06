@@ -16,6 +16,8 @@ def main():
     read = lambda path: json.loads(path.read_text(encoding="utf-8"))
     metrics = read(ROOT / "models" / "metrics.json")
     model = read(ROOT / "models" / "model.json")
+    if model.get("architecture_id", "small_cnn_v1") != "small_cnn_v1":
+        raise SystemExit("Este gerador documenta a CNN 1.0. Para o modelo ativo, consulte reports/REFINAMENTO_CNN.md.")
     dataset = read(ROOT / "models" / "dataset.json")
     history = read(ROOT / "reports" / "training_history.json")
     audit = read(ROOT / "data" / "manifest.audit.json")

@@ -203,7 +203,7 @@ def test_live_server(python: Path, project: Path, env: dict, log: Path, preferre
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--archive", type=Path, default=ROOT / "release" / "AuscultaLab-v1.0.0.zip")
+    parser.add_argument("--archive", type=Path, default=ROOT / "release" / "AuscultaLab-v1.1.0.zip")
     parser.add_argument("--output", type=Path, default=ROOT / "reports" / "qa" / "pacote_extraido.json")
     parser.add_argument("--port", type=int, default=8771)
     args = parser.parse_args()

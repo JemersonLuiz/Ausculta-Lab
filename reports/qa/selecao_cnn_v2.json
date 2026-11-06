@@ -1,0 +1,243 @@
+{
+  "seed": 42,
+  "class_weight_exponent": 0.45,
+  "epoch": 5,
+  "rank": 0.5824849752858299,
+  "validation": {
+    "n_cycles": 431,
+    "accuracy": 0.5870069605568445,
+    "balanced_accuracy": 0.5374469045991602,
+    "macro_f1": 0.5198705355281934,
+    "confusion_matrix": [
+      [
+        147,
+        48,
+        4,
+        21
+      ],
+      [
+        17,
+        35,
+        0,
+        4
+      ],
+      [
+        11,
+        2,
+        53,
+        32
+      ],
+      [
+        15,
+        8,
+        16,
+        18
+      ]
+    ],
+    "classes": [
+      "Sem sibilos/estertores",
+      "Estertores",
+      "Sibilos",
+      "Ambos"
+    ],
+    "per_class": [
+      {
+        "label": "Sem sibilos/estertores",
+        "support": 220,
+        "sensitivity": 0.6681818181818182,
+        "specificity": 0.7962085308056872,
+        "precision": 0.7736842105263158,
+        "f1": 0.7170731707317073
+      },
+      {
+        "label": "Estertores",
+        "support": 56,
+        "sensitivity": 0.625,
+        "specificity": 0.8453333333333334,
+        "precision": 0.3763440860215054,
+        "f1": 0.4697986577181208
+      },
+      {
+        "label": "Sibilos",
+        "support": 98,
+        "sensitivity": 0.5408163265306123,
+        "specificity": 0.93993993993994,
+        "precision": 0.726027397260274,
+        "f1": 0.6198830409356725
+      },
+      {
+        "label": "Ambos",
+        "support": 57,
+        "sensitivity": 0.3157894736842105,
+        "specificity": 0.8475935828877005,
+        "precision": 0.24,
+        "f1": 0.2727272727272727
+      }
+    ],
+    "icbhi_sensitivity": 0.5023696682464455,
+    "icbhi_specificity": 0.6681818181818182,
+    "icbhi_score": 0.5852757432141318,
+    "evaluation_unit": "ciclo respiratório",
+    "specificity_definition": "um-contra-os-demais por classe",
+    "icbhi_definition": "média entre acerto dos ciclos sem eventos e acerto da categoria exata nos ciclos com eventos"
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 1.2840360443527061,
+      "validation_macro_f1": 0.23159991612497377,
+      "validation_recall": [
+        0.6545454545454545,
+        0.6607142857142857,
+        0.0,
+        0.0
+      ],
+      "selection_score": 0.23159991612497377
+    },
+    {
+      "epoch": 2,
+      "train_loss": 1.209159739560131,
+      "validation_macro_f1": 0.24754660551415933,
+      "validation_recall": [
+        0.5818181818181818,
+        0.7142857142857143,
+        0.05102040816326531,
+        0.0
+      ],
+      "selection_score": 0.24754660551415933
+    },
+    {
+      "epoch": 3,
+      "train_loss": 1.1352857739711777,
+      "validation_macro_f1": 0.4465658176962828,
+      "validation_recall": [
+        0.6409090909090909,
+        0.6428571428571429,
+        0.40816326530612246,
+        0.19298245614035087
+      ],
+      "selection_score": 0.48516230892435297
+    },
+    {
+      "epoch": 4,
+      "train_loss": 1.0566097071055378,
+      "validation_macro_f1": 0.4386648881114826,
+      "validation_recall": [
+        0.5909090909090909,
+        0.7142857142857143,
+        0.46938775510204084,
+        0.10526315789473684
+      ],
+      "selection_score": 0.45971751969042995
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.9998052255538151,
+      "validation_macro_f1": 0.5158183086191632,
+      "validation_recall": [
+        0.5545454545454546,
+        0.6428571428571429,
+        0.6836734693877551,
+        0.3333333333333333
+      ],
+      "selection_score": 0.5824849752858299
+    },
+    {
+      "epoch": 6,
+      "train_loss": 0.9507478707421801,
+      "validation_macro_f1": 0.46526689638096036,
+      "validation_recall": [
+        0.7363636363636363,
+        0.5892857142857143,
+        0.6122448979591837,
+        0.03508771929824561
+      ],
+      "selection_score": 0.4722844402406095
+    },
+    {
+      "epoch": 7,
+      "train_loss": 0.9242098298945822,
+      "validation_macro_f1": 0.5021457270550116,
+      "validation_recall": [
+        0.6181818181818182,
+        0.6071428571428571,
+        0.6224489795918368,
+        0.2631578947368421
+      ],
+      "selection_score": 0.55477730600238
+    },
+    {
+      "epoch": 8,
+      "train_loss": 0.8883469355855973,
+      "validation_macro_f1": 0.4692699846472153,
+      "validation_recall": [
+        0.6227272727272727,
+        0.75,
+        0.5714285714285714,
+        0.10526315789473684
+      ],
+      "selection_score": 0.4903226162261627
+    },
+    {
+      "epoch": 9,
+      "train_loss": 0.852298193596175,
+      "validation_macro_f1": 0.47119854392408855,
+      "validation_recall": [
+        0.5863636363636363,
+        0.6428571428571429,
+        0.5816326530612245,
+        0.19298245614035087
+      ],
+      "selection_score": 0.5097950351521587
+    },
+    {
+      "epoch": 10,
+      "train_loss": 0.831674252109655,
+      "validation_macro_f1": 0.46756999565151824,
+      "validation_recall": [
+        0.6181818181818182,
+        0.625,
+        0.7857142857142857,
+        0.05263157894736842
+      ],
+      "selection_score": 0.4780963114409919
+    },
+    {
+      "epoch": 11,
+      "train_loss": 0.8087582117859762,
+      "validation_macro_f1": 0.46803665456525423,
+      "validation_recall": [
+        0.6772727272727272,
+        0.5892857142857143,
+        0.8469387755102041,
+        0.0
+      ],
+      "selection_score": 0.46803665456525423
+    },
+    {
+      "epoch": 12,
+      "train_loss": 0.8004415214028568,
+      "validation_macro_f1": 0.4716475880233092,
+      "validation_recall": [
+        0.6454545454545455,
+        0.6607142857142857,
+        0.7653061224489796,
+        0.03508771929824561
+      ],
+      "selection_score": 0.47866513188295834
+    }
+  ],
+  "class_weights": [
+    0.7255377769470215,
+    0.9019819498062134,
+    1.4591798782348633,
+    1.8011932373046875
+  ],
+  "decision_offsets": [
+    0.0,
+    -0.5,
+    -1.25,
+    -1.0
+  ],
+  "criterion": "maximin_validation_recall_gain_vs_v1_then_macro_f1"
+}

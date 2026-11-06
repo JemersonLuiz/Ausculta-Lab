@@ -2,7 +2,7 @@
 
 Classificação de ciclos respiratórios com processamento de áudio e uma CNN, acompanhada de modelo convencional, resultados rastreáveis e testes.
 
-**Implementado:** interface local para WAV, seleção manual do ciclo, player, forma de onda, CNN, espectrograma, exportação JSON e consulta de evidências. Os dados reais foram obtidos e auditados. Consulte [resultados](reports/RESULTADOS.md) e [verificações independentes](docs/QA_INDEPENDENTE.md) para o estado final dos experimentos e retestes.
+**Versão 1.1.0:** tela de análise simplificada, 16 ciclos de exemplo e CNN por faixas. O resultado destaca a categoria prevista e as quatro pontuações. O espectrograma e a exportação JSON ficam em “Espectrograma e detalhes”. Consulte a [comparação por categoria e o teste com voz externa](reports/REFINAMENTO_CNN.md).
 
 **Escopo entregue:** pulmonar, quatro categorias acústicas. O módulo de arritmia não está implementado e aparece como indisponível. O modelo é experimental e não possui validação clínica. O planejamento inicial de um mês foi mantido na documentação como contexto; a demonstração foi implementada como aplicação web local, sem hospedagem externa.
 
@@ -14,15 +14,17 @@ Classificação de ciclos respiratórios com processamento de áudio e uma CNN, 
 4. Execute `INICIAR.bat`. A interface abre em **http://127.0.0.1:8765**.
 5. Mantenha a janela do servidor aberta. Use Ctrl+C para encerrar.
 
-Após instalar, a classificação funciona localmente com os pesos distribuídos e os quatro exemplos reais. A base completa não precisa ser baixada para usar a demonstração.
+Após instalar, a classificação funciona localmente com os pesos distribuídos e os 16 exemplos reais. A demonstração usa os arquivos que acompanham o pacote.
 
 Se a porta estiver ocupada: `powershell -NoProfile -ExecutionPolicy Bypass -File .\Iniciar.ps1 -Port 8767`.
 
 ## Uso
 
-Carregue um exemplo de teste ou um WAV mono/estéreo de até 20 MB e 120 segundos. Delimite um ciclo de 0,1 a 20 segundos, ouça o trecho, confirme a seleção e clique em analisar. A aplicação mostra a categoria prevista e pontuações softmax não calibradas; não são probabilidades clínicas de doença. Alterar o trecho invalida a previsão anterior.
+Carregue um exemplo ou um WAV de ausculta mono ou estéreo de até 20 MB e 120 segundos. Ouça o áudio, delimite um ciclo de 0,1 a 20 segundos, confirme a seleção e clique em analisar. Alterar o trecho invalida a previsão anterior. As pontuações descrevem a preferência do modelo entre as quatro classes.
 
 Os exemplos trazem o rótulo anotado para comparação. Foram escolhidos por uma regra fixa, sem selecionar os que o modelo acerta. A aplicação não envia uploads a serviços externos nem os mantém como novos dados de treinamento.
+
+Mensagens em OGG ou Opus recebem uma instrução para escolher um WAV de ausculta. A análise aceita um WAV tecnicamente válido de fala e pode gerar uma categoria fora do escopo. A confirmação do trecho orienta o usuário a utilizar somente ausculta respiratória.
 
 ## Executar testes e reteste
 
@@ -44,7 +46,8 @@ O primeiro comando exige os artefatos reais incluídos no pacote. Fixtures sint�
 - [Ficha de experimento](docs/REGISTRO_EXPERIMENTO.md): registro completo de cada execução real.
 - [Experimento 001 executado](docs/EXPERIMENTO_001.md): ficha preenchida com configuração, dados, resultados e decisões.
 - [Dados e proveniência](docs/DADOS.md): aquisição, integridade, termos e correção das partições.
-- [Resultados reais](reports/RESULTADOS.md): métricas, figuras e interpretação.
+- [CNN por faixas](reports/REFINAMENTO_CNN.md): comparação de acertos por categoria, decisões do experimento e teste com fala.
+- [Resultados da versão 1.0](reports/RESULTADOS.md): métricas, figuras e interpretação do experimento original.
 - [QA independente](docs/QA_INDEPENDENTE.md): testes, achados e retestes.
 - [docs/PLANO_IMPLEMENTACAO.md](docs/PLANO_IMPLEMENTACAO.md): tarefas e critérios de aceite para construir o protótipo.
 - [docs/manifesto.template.csv](docs/manifesto.template.csv): cabeçalho do futuro catálogo de segmentos; contém somente o cabeçalho, sem pacientes ou exemplos fictícios.
@@ -73,16 +76,18 @@ projeto-triagem-cardiopulmonar/
 |-- scripts/         # aquisição, treino, relatório e reteste
 |-- web/             # interface sem CDN
 |-- tests/           # testes unitários e integração real
-|-- examples/        # quatro ciclos reais de teste e proveniência
+|-- examples/        # 16 ciclos reais de teste e proveniência
 |-- models/          # pesos, modelo convencional e resultados
 |-- requirements.lock.txt
 |-- INICIAR.bat
 `-- reports/         # previsões, métricas, gráficos e evidências
 ```
 
-## Reproduzir o experimento completo
+## Reproduzir os experimentos
 
-Obtenha a base seguindo [DADOS.md](docs/DADOS.md), preservando a origem e as condições de pesquisa. Depois:
+O refinamento da CNN e a avaliação usam `scripts/refine_model.py`. Os comandos e o protocolo estão no [relatório da versão 1.1](reports/REFINAMENTO_CNN.md).
+
+Para refazer a versão 1.0, use uma cópia separada. Obtenha a base seguindo [DADOS.md](docs/DADOS.md), preservando a origem e as condições de pesquisa. Depois:
 
 ```powershell
 .\.venv\Scripts\python.exe scripts\download_data.py

@@ -41,7 +41,7 @@ def release_files():
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--output", type=Path, default=ROOT / "release" / "AuscultaLab-v1.0.0.zip")
+    parser.add_argument("--output", type=Path, default=ROOT / "release" / "AuscultaLab-v1.1.0.zip")
     args = parser.parse_args()
     files = release_files()
     model = json.loads((ROOT / "models" / "model.json").read_text(encoding="utf-8"))

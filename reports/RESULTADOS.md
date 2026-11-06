@@ -1,5 +1,7 @@
 # Resultados experimentais reais
 
+Registro histórico da versão 1.0. A comparação com o modelo ativo está no [relatório da versão 1.1](REFINAMENTO_CNN.md).
+
 Os valores abaixo foram gerados pelos artefatos do treinamento. Nenhum áudio sintético foi usado nas métricas científicas. Fixtures artificiais existem exclusivamente nos testes de software.
 
 ## Dados e protocolo

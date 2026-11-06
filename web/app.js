@@ -3,26 +3,22 @@
 (() => {
   const byId = (id) => document.getElementById(id);
   const elements = Object.fromEntries([
-    "appVersion", "modelState", "modelStateText", "globalMessage", "datasetValue", "datasetDetail",
-    "modelValue", "modelDetail", "metricValue", "metricDetail", "dropzone", "uploadButton", "audioFile",
+    "modelState", "modelStateText", "globalMessage", "dropzone", "uploadButton", "uploadButtonText", "audioFile",
     "uploadLimits", "exampleSelect", "loadExample", "audioWorkspace", "fileName", "fileMeta", "clearFile",
     "waveform", "waveformEnd", "audioPlayer", "playSegment", "startTime", "endTime", "segmentDuration",
     "segmentError", "cycleConfirmed", "referenceNote", "analyzeButton", "analyzeButtonText", "analyzeHelp",
     "resultTag", "resultEmpty", "analysisProgress", "resultContent", "predictionLabel", "predictionMeta",
-    "scoreList", "spectrogramImage", "spectrogramUnavailable", "qualityMessage", "downloadResult",
-    "refreshStatus", "modelFacts", "metricFacts", "limitationsList"
+    "scoreList", "spectrogramImage", "spectrogramUnavailable", "qualityMessage", "downloadResult", "resultDetails"
   ].map((id) => [id, byId(id)]));
 
   const state = { status: null, file: null, decoded: null, audioUrl: null, duration: 0, busy: false, loading: false,
     revision: 0, controller: null, examples: [], result: null, playEnd: null, maxUploadMb: 20, maxDuration: 120, maxSegmentDuration: 20 };
   const labels = ["Sem sibilos/estertores", "Estertores", "Sibilos", "Ambos"];
-  const fixedLimitations = ["Protótipo de pesquisa, sem validação clínica para uso assistencial.",
-    "O áudio precisa conter um ciclo respiratório delimitado.", "O módulo de arritmia não está disponível nesta versão."];
+  const voiceFormatMessage = "Arquivo OGG ou Opus. Para analisar, escolha uma gravação de ausculta em WAV.";
   const hide = (element, yes = true) => element.classList.toggle("hidden", yes);
   const number = (value) => typeof value === "number" && Number.isFinite(value);
   const decimal = (value, digits = 2) => new Intl.NumberFormat("pt-BR", { maximumFractionDigits: digits }).format(value);
   const percent = (value) => `${decimal(value * 100, 1)}%`;
-  const firstNumber = (...values) => values.find(number);
 
   function pcmWavInfo(buffer) {
     // WebAudio reamostra para a taxa do dispositivo e pode arredondar a duração.
@@ -43,71 +39,30 @@
     return { duration: dataBytes / format.alignment / format.rate, sampleRate: format.rate, channels: format.channels };
   }
 
-  function showMessage(message, success = false) {
+  function showMessage(message) {
     elements.globalMessage.textContent = message;
-    elements.globalMessage.classList.toggle("success", success);
     hide(elements.globalMessage, !message);
-  }
-  function facts(container, rows) {
-    container.replaceChildren();
-    rows.forEach(([label, value]) => {
-      const row = document.createElement("div"), key = document.createElement("dt"), val = document.createElement("dd");
-      key.textContent = label; val.textContent = value == null || value === "" ? "Não registrado" : String(value);
-      row.append(key, val); container.append(row);
-    });
-  }
-  function safeDate(value) {
-    if (!value) return "Não registrado";
-    const date = new Date(value);
-    return Number.isNaN(date.getTime()) ? String(value) : new Intl.DateTimeFormat("pt-BR", { dateStyle: "short", timeStyle: "short" }).format(date);
-  }
-  function renderStatus() {
-    const status = state.status, model = status?.model || {}, data = status?.dataset || {}, metrics = model.metrics || {};
-    const ready = status?.model_ready === true;
-    elements.modelState.className = `status-pill ${ready ? "ready" : "unavailable"}`;
-    elements.modelStateText.textContent = ready ? "Modelo disponível" : "Modelo indisponível";
-    elements.appVersion.textContent = status?.version ? `VERSÃO ${status.version}` : "Versão não informada";
-    const patients = firstNumber(data.patients, data.n_patients, data.patient_count);
-    const recordings = firstNumber(data.recordings, data.n_recordings, data.recording_count);
-    const cycles = firstNumber(data.cycles, data.n_cycles, data.segments, data.segment_count);
-    elements.datasetValue.textContent = number(patients) ? `${decimal(patients, 0)} pacientes` : (data.name || "Não registrada");
-    elements.datasetDetail.textContent = [number(recordings) ? `${decimal(recordings, 0)} gravações` : null,
-      number(cycles) ? `${decimal(cycles, 0)} ciclos` : null].filter(Boolean).join(" · ") || "Contagens não registradas";
-    elements.modelValue.textContent = model.name || "Não treinado";
-    elements.modelDetail.textContent = ready ? (model.task || "Classificação de sons respiratórios") : "Análise aguardando um modelo salvo";
-    const macro = firstNumber(metrics.macro_f1, metrics.f1_macro);
-    elements.metricValue.textContent = number(macro) ? decimal(macro, 3) : "—";
-    elements.metricDetail.textContent = number(macro) ? "Teste reservado por paciente" : "Resultado ainda não registrado";
-    facts(elements.modelFacts, [["Situação", ready ? "Disponível para análise" : "Indisponível"], ["Modelo", model.name],
-      ["Tarefa", model.task], ["Treinamento", safeDate(model.trained_at)], ["Categorias", Array.isArray(model.classes) ? model.classes.length : null]]);
-    const evaluationRows = [["Macro-F1", number(macro) ? decimal(macro, 4) : null],
-      ["Acurácia balanceada", number(metrics.balanced_accuracy) ? decimal(metrics.balanced_accuracy, 4) : null],
-      ["Acurácia", number(metrics.accuracy) ? decimal(metrics.accuracy, 4) : null],
-      ["Unidade de avaliação", metrics.evaluation_unit || model.evaluation_unit || "Ciclo respiratório"]];
-    if (metrics.split) evaluationRows.push(["Conjunto", metrics.split]);
-    facts(elements.metricFacts, evaluationRows);
-    const suppliedLimitations = Array.isArray(model.limitations) ? model.limitations.filter((x) => typeof x === "string") : [];
-    const limitations = [...new Set(suppliedLimitations.length ? suppliedLimitations : fixedLimitations)];
-    elements.limitationsList.replaceChildren(...limitations.map((item) => { const li = document.createElement("li"); li.textContent = item; return li; }));
-    const maxMb = status?.limits?.max_upload_mb, maxDuration = status?.limits?.max_duration_s;
-    state.maxUploadMb = number(maxMb) && maxMb > 0 ? maxMb : 20;
-    state.maxDuration = number(maxDuration) && maxDuration > 0 ? maxDuration : 120;
-    const maxSegment = firstNumber(status?.limits?.max_segment_s, status?.limits?.max_segment_duration_s);
-    state.maxSegmentDuration = number(maxSegment) && maxSegment > 0 ? maxSegment : 20;
-    elements.uploadLimits.textContent = `Arquivo WAV · até ${decimal(state.maxUploadMb, 0)} MB · mono ou estéreo`;
-    updateControls();
+    if (message) elements.globalMessage.scrollIntoView({ block: "nearest" });
   }
   async function fetchStatus() {
-    elements.refreshStatus.disabled = true;
     try {
       const response = await fetch("/api/status", { cache: "no-store" });
-      if (!response.ok) throw new Error("Não foi possível consultar o estado da aplicação.");
-      state.status = await response.json(); renderStatus();
-    } catch (error) {
-      state.status = null; renderStatus();
-      elements.modelStateText.textContent = "Conexão indisponível";
-      showMessage("Não foi possível consultar o servidor local. Verifique se a aplicação está em execução e atualize as informações.");
-    } finally { elements.refreshStatus.disabled = false; }
+      if (!response.ok) throw new Error("Servidor local indisponível");
+      state.status = await response.json();
+      const limits = state.status.limits || {};
+      if (number(limits.max_upload_mb)) state.maxUploadMb = limits.max_upload_mb;
+      if (number(limits.max_duration_s)) state.maxDuration = limits.max_duration_s;
+      if (number(limits.max_segment_s)) state.maxSegmentDuration = limits.max_segment_s;
+      elements.uploadLimits.textContent = "WAV · até " + decimal(state.maxUploadMb, 0) + " MB";
+      elements.modelStateText.textContent = state.status.model_ready ? "Pronto para análise" : "Modelo indisponível";
+      elements.modelState.className = "status-pill " + (state.status.model_ready ? "ready" : "unavailable");
+    } catch {
+      state.status = null;
+      elements.modelState.className = "status-pill unavailable";
+      elements.modelStateText.textContent = "Sem conexão";
+      showMessage("Não foi possível acessar o servidor local. Abra a aplicação e recarregue esta página.");
+    }
+    updateControls();
   }
   async function fetchExamples() {
     try {
@@ -117,18 +72,31 @@
       state.examples = Array.isArray(payload) ? payload : (Array.isArray(payload.examples) ? payload.examples : []);
       elements.exampleSelect.replaceChildren();
       if (!state.examples.length) throw new Error("Nenhum exemplo registrado");
+      const groups = new Map();
       state.examples.forEach((example, index) => {
-        const option = document.createElement("option"); option.value = String(index);
-        option.textContent = example.name || `Exemplo ${index + 1}`; elements.exampleSelect.append(option);
+        const category = example.label || "Ausculta";
+        if (!groups.has(category)) {
+          const group = document.createElement("optgroup");
+          group.label = category;
+          groups.set(category, group);
+          elements.exampleSelect.append(group);
+        }
+        const group = groups.get(category);
+        const option = new Option(`${category} · ${group.children.length + 1}`, String(index));
+        group.append(option);
       });
-      elements.exampleSelect.disabled = false; elements.loadExample.disabled = false;
+      updateControls();
     } catch (error) {
       state.examples = []; elements.exampleSelect.replaceChildren(new Option("Sem exemplos disponíveis", ""));
       elements.exampleSelect.disabled = true; elements.loadExample.disabled = true;
     }
   }
   function segment() {
-    return { start: Number(elements.startTime.value), end: Number(elements.endTime.value) };
+    const end = Number(elements.endTime.value);
+    return {
+      start: Number(elements.startTime.value),
+      end: end === Number(state.duration.toFixed(3)) ? state.duration : end,
+    };
   }
   function segmentError() {
     if (!state.file || !state.decoded) return "Selecione uma gravação válida.";
@@ -137,9 +105,9 @@
     if (!Number.isFinite(start) || !Number.isFinite(end)) return "Use valores numéricos para os limites do ciclo.";
     if (start < 0) return "O início precisa ser igual ou maior que zero.";
     if (end <= start) return "O fim precisa ser posterior ao início.";
-    if (end > state.duration + 0.005) return "O fim do trecho ultrapassa a duração da gravação.";
-    if (end - start < 0.1) return "Selecione um trecho de pelo menos 0,1 segundo.";
-    if (end - start > state.maxSegmentDuration + 0.005) return `O ciclo selecionado pode ter no máximo ${decimal(state.maxSegmentDuration, 0)} segundos.`;
+    if (end > state.duration + 1e-6) return "O fim do trecho ultrapassa a duração da gravação.";
+    if (end - start < 0.1 - 1e-9) return "Selecione um trecho de pelo menos 0,1 segundo.";
+    if (end - start > state.maxSegmentDuration + 1e-9) return `O ciclo selecionado pode ter no máximo ${decimal(state.maxSegmentDuration, 0)} segundos.`;
     return "";
   }
   function updateControls() {
@@ -154,20 +122,23 @@
     elements.endTime.disabled = state.busy || state.loading;
     elements.cycleConfirmed.disabled = state.busy || state.loading;
     elements.uploadButton.disabled = state.busy || state.loading;
+    elements.dropzone.classList.toggle("has-audio", Boolean(state.file));
+    elements.uploadButtonText.textContent = state.file ? "Trocar arquivo" : "Selecionar arquivo";
     elements.audioFile.disabled = state.busy || state.loading;
     elements.clearFile.disabled = state.busy || state.loading;
     elements.loadExample.disabled = !state.examples.length || state.busy || state.loading;
     elements.exampleSelect.disabled = !state.examples.length || state.busy || state.loading;
     elements.analyzeButtonText.textContent = state.busy ? "Analisando o áudio…" : "Analisar ciclo respiratório";
-    elements.analyzeHelp.textContent = state.busy ? "Aguarde a conclusão do processamento." : !ready ? "A análise será habilitada quando um modelo treinado estiver disponível." :
-      !state.file ? "Selecione um áudio e confirme os limites do ciclo para começar." : !elements.cycleConfirmed.checked ?
-      "Confira a seleção e confirme que o trecho representa um ciclo respiratório." : "O processamento será realizado pelo servidor local.";
+    elements.analyzeHelp.textContent = state.busy ? "Processando o trecho…" :
+      !ready ? "Aguardando o modelo local." :
+      !elements.cycleConfirmed.checked ? "Confirme a seleção para habilitar a análise." : "";
     drawWaveform();
   }
   function resetResult() {
     state.result = null;
     hide(elements.resultContent); hide(elements.analysisProgress); hide(elements.resultEmpty, false);
-    elements.resultTag.textContent = state.file ? "PRONTO PARA ANALISAR" : "AGUARDANDO ÁUDIO";
+    elements.resultDetails.open = false;
+    elements.resultTag.textContent = state.file ? "Áudio carregado" : "Aguardando áudio";
   }
   function clearFile() {
     state.revision += 1; state.controller?.abort();
@@ -181,7 +152,10 @@
   async function loadFile(file, example = null) {
     if (state.busy) return;
     clearFile(); showMessage("");
-    if (!file || !/\.wav$/i.test(file.name)) { showMessage("Selecione um arquivo WAV. Outros formatos não são aceitos nesta demonstração."); return; }
+    if (!file || !/\.wav$/i.test(file.name)) {
+      showMessage(/\.(ogg|oga|opus)$/i.test(file?.name || "") ? voiceFormatMessage : "Escolha uma gravação de ausculta em formato WAV.");
+      return;
+    }
     if (!file.size) { showMessage("O arquivo está vazio. Selecione outra gravação."); return; }
     if (file.size > state.maxUploadMb * 1024 * 1024) { showMessage(`O arquivo ultrapassa o limite de ${decimal(state.maxUploadMb, 0)} MB.`); return; }
     const revision = state.revision;
@@ -190,8 +164,13 @@
     try {
       const AudioContext = window.AudioContext || window.webkitAudioContext;
       if (!AudioContext) throw new Error("Este navegador não permite preparar o áudio. Utilize um navegador atualizado.");
-      audioContext = new AudioContext();
       const sourceBuffer = await file.arrayBuffer(), original = pcmWavInfo(sourceBuffer);
+      const header = String.fromCharCode(...new Uint8Array(sourceBuffer, 0, Math.min(sourceBuffer.byteLength, 12)));
+      if (header.startsWith("OggS")) throw new Error(voiceFormatMessage);
+      if (!/^(RIFF|RIFX|RF64)/.test(header) || header.slice(8, 12) !== "WAVE") {
+        throw new Error("O conteúdo do arquivo não é WAV. Escolha uma gravação de ausculta em WAV.");
+      }
+      audioContext = new AudioContext();
       const decoded = await audioContext.decodeAudioData(sourceBuffer);
       if (revision !== state.revision) return;
       if (!Number.isFinite(decoded.duration) || decoded.duration <= 0) throw new Error("A gravação não tem duração válida.");
@@ -200,23 +179,28 @@
       if (sourceDuration > state.maxDuration) throw new Error(`A gravação ultrapassa o limite de ${decimal(state.maxDuration, 0)} segundos.`);
       state.file = file; state.decoded = decoded; state.duration = sourceDuration;
       state.audioUrl = URL.createObjectURL(file); elements.audioPlayer.src = state.audioUrl;
-      elements.fileName.textContent = file.name;
-      elements.fileMeta.textContent = `${decimal(state.duration)} s · ${original ? `${decimal(original.sampleRate, 0)} Hz · ` : ""}${decoded.numberOfChannels === 1 ? "mono" : "estéreo"} · ${decimal(file.size / 1024 / 1024)} MB`;
+      elements.fileName.textContent = example?.name || file.name;
+      elements.fileMeta.textContent = `${decimal(state.duration)} s · WAV`;
       elements.waveformEnd.textContent = `${decimal(state.duration)} s`;
-      elements.startTime.max = String(state.duration); elements.endTime.max = String(state.duration);
+      elements.startTime.max = String(state.duration); elements.endTime.max = state.duration.toFixed(3);
       const proposedStart = example && number(example.start) ? example.start : 0;
       const proposedEnd = example && number(example.end) ? example.end : state.duration;
       elements.startTime.value = String(Math.max(0, proposedStart));
-      elements.endTime.value = String(Math.min(state.duration, proposedEnd));
+      elements.endTime.value = String(Number(Math.min(state.duration, proposedEnd).toFixed(3)));
       elements.cycleConfirmed.checked = !!example;
       if (example) {
         const reference = typeof example.label === "number" ? labels[example.label] : example.label;
-        elements.referenceNote.textContent = `Exemplo reservado para teste. Referência anotada: ${reference || "não informada"}. Os limites vieram da anotação.`;
+        elements.referenceNote.textContent = `Referência do exemplo: ${reference || "não informada"}.`;
         hide(elements.referenceNote, false);
       }
-      hide(elements.audioWorkspace, false); resetResult();
+      hide(elements.audioWorkspace, false);
+      resetResult();
+      elements.audioWorkspace.scrollIntoView({ block: "nearest" });
     } catch (error) {
-      if (revision === state.revision) { clearFile(); showMessage(error.message || "Não foi possível ler o áudio. Verifique se o arquivo WAV está íntegro."); }
+      if (revision === state.revision) {
+        clearFile();
+        showMessage(error instanceof DOMException ? "Não foi possível abrir esse WAV. Confira se o arquivo está íntegro." : error.message);
+      }
     } finally {
       if (audioContext && audioContext.state !== "closed") await audioContext.close().catch(() => {});
       if (revision === state.revision) { state.loading = false; updateControls(); }
@@ -231,8 +215,8 @@
     const samples = state.decoded.getChannelData(0), { start, end } = segment();
     const x1 = Math.max(0, Math.min(width, start / state.duration * width));
     const x2 = Math.max(0, Math.min(width, end / state.duration * width));
-    if (Number.isFinite(x1) && Number.isFinite(x2) && x2 > x1) { ctx.fillStyle = "rgba(8,127,118,.075)"; ctx.fillRect(x1, 0, x2 - x1, height); }
-    ctx.strokeStyle = "#4f9c80"; ctx.lineWidth = 1;
+    if (Number.isFinite(x1) && Number.isFinite(x2) && x2 > x1) { ctx.fillStyle = "rgba(131,230,204,.12)"; ctx.fillRect(x1, 0, x2 - x1, height); }
+    ctx.strokeStyle = "#83e6cc"; ctx.lineWidth = 1;
     const stride = Math.max(1, Math.floor(samples.length / width));
     for (let x = 0; x < width; x += 2) {
       const offset = Math.floor(x / width * samples.length); let low = 1, high = -1;
@@ -240,7 +224,7 @@
       ctx.beginPath(); ctx.moveTo(x + .5, height / 2 + low * height * .43); ctx.lineTo(x + .5, height / 2 + high * height * .43); ctx.stroke();
     }
     if (Number.isFinite(x1) && Number.isFinite(x2) && x2 > x1) {
-      ctx.strokeStyle = "#168571"; ctx.lineWidth = 1.5;
+      ctx.strokeStyle = "#cbfffc"; ctx.lineWidth = 1.5;
       [x1, x2].forEach((x) => { const safeX = Math.max(1, Math.min(width - 1, x)); ctx.beginPath(); ctx.moveTo(safeX, 0); ctx.lineTo(safeX, height); ctx.stroke(); });
     }
   }
@@ -264,10 +248,7 @@
     if (scores.length !== prediction.scores.length) throw new Error("O servidor retornou pontuações inválidas.");
     elements.predictionLabel.textContent = prediction.label;
     const duration = result.segment?.duration_s;
-    if (number(result.audio?.sample_rate) && number(result.audio?.duration_s)) {
-      elements.fileMeta.textContent = `${decimal(result.audio.duration_s)} s · ${decimal(result.audio.sample_rate, 0)} Hz · ${result.audio.channels === 1 ? "mono" : "estéreo"} · ${decimal(state.file.size / 1024 / 1024)} MB`;
-    }
-    elements.predictionMeta.textContent = [result.model?.name || "Modelo salvo", number(duration) ? `ciclo de ${decimal(duration)} s` : null].filter(Boolean).join(" · ");
+    elements.predictionMeta.textContent = number(duration) ? `Trecho de ${decimal(duration)} s` : "";
     elements.scoreList.replaceChildren();
     scores.forEach((item) => {
       const row = document.createElement("div"); row.className = `score-row${item.label === prediction.label ? " winner" : ""}`;
@@ -287,7 +268,7 @@
     } else { elements.qualityMessage.textContent = "Nenhum aviso técnico foi informado para este processamento. Isso não substitui uma avaliação clínica."; }
     hide(elements.qualityMessage, false);
     state.result = result; hide(elements.resultEmpty); hide(elements.analysisProgress); hide(elements.resultContent, false);
-    elements.resultTag.textContent = "ANÁLISE CONCLUÍDA";
+    elements.resultTag.textContent = "Concluída";
   }
   async function analyze() {
     if (elements.analyzeButton.disabled) return;
@@ -295,13 +276,18 @@
     const { start, end } = segment(), revision = state.revision;
     const form = new FormData(); form.append("file", state.file); form.append("start", String(start)); form.append("end", String(end));
     state.busy = true; state.controller = new AbortController(); showMessage(""); state.result = null;
-    hide(elements.resultEmpty); hide(elements.resultContent); hide(elements.analysisProgress, false); elements.resultTag.textContent = "PROCESSANDO"; updateControls();
+    hide(elements.resultEmpty); hide(elements.resultContent); hide(elements.analysisProgress, false); elements.resultTag.textContent = "Processando"; updateControls();
     try {
       const response = await fetch("/api/analyze", { method: "POST", body: form, signal: state.controller.signal });
       let payload;
       try { payload = await response.json(); } catch { throw new Error("O servidor não retornou uma resposta válida."); }
       if (!response.ok) throw new Error(typeof payload.detail === "string" ? payload.detail : "A gravação não pôde ser analisada. Confira o arquivo e os limites do ciclo.");
-      if (revision === state.revision) renderResult(payload);
+      if (revision === state.revision) {
+        renderResult(payload);
+        if (window.matchMedia("(max-width: 800px)").matches) {
+          elements.resultTag.scrollIntoView({ block: "nearest" });
+        }
+      }
     } catch (error) {
       if (error.name !== "AbortError" && revision === state.revision) { resetResult(); showMessage(error.message || "Falha na análise. Tente novamente."); }
     } finally { state.busy = false; state.controller = null; updateControls(); }
@@ -330,7 +316,6 @@
   elements.audioPlayer.addEventListener("ended", () => { state.playEnd = null; });
   elements.loadExample.addEventListener("click", loadExample);
   elements.analyzeButton.addEventListener("click", analyze);
-  elements.refreshStatus.addEventListener("click", async () => { showMessage(""); await fetchStatus(); await fetchExamples(); });
   elements.downloadResult.addEventListener("click", () => {
     if (!state.result) return;
     const report = { exported_at: new Date().toISOString(), filename: state.file?.name, result: state.result };

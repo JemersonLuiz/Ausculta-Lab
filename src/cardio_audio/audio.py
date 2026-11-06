@@ -49,6 +49,8 @@ def decode_audio(payload: bytes) -> AudioData:
         raise AudioValidationError("O arquivo está vazio.")
     if len(payload) > MAX_UPLOAD_BYTES:
         raise AudioValidationError("O arquivo excede o limite de 20 MB.")
+    if payload.startswith(b"OggS"):
+        raise AudioValidationError("Arquivo OGG ou Opus. Para analisar, escolha uma gravação de ausculta em WAV.")
     if len(payload) < 12 or payload[:4] not in (b"RIFF", b"RIFX", b"RF64") or payload[8:12] != b"WAVE":
         raise AudioValidationError("Envie um arquivo WAV válido; renomear a extensão não converte o áudio.")
     try:

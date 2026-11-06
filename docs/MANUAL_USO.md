@@ -9,7 +9,7 @@ Aplicação acadêmica local de classificação de ciclos respiratórios. A inte
 3. Execute INSTALAR.bat. Ele chama Instalar.ps1, cria .venv, instala requirements.lock.txt e instala o pacote Python local.
 4. Aguarde a mensagem de conclusão. A primeira instalação precisa de internet e pode demorar por causa das dependências de machine learning.
 
-O ambiente .venv é criado no computador do usuário e não integra o ZIP. Para uso normal, o modelo e os quatro exemplos que acompanham a entrega dispensam novo download da base completa.
+O ambiente .venv é criado no computador do usuário. O modelo e os 16 exemplos do pacote permitem usar a aplicação com uma instalação local.
 
 ## 2. Abrir e encerrar
 
@@ -32,13 +32,13 @@ Nesse caso, abra http://127.0.0.1:8766. O servidor utiliza o endereço de loopba
 ## 3. Experimentar um exemplo real
 
 1. Aguarde a indicação de modelo disponível.
-2. Escolha um exemplo na lista “Comece com um exemplo real” e clique em “Carregar”.
+2. Escolha um áudio na lista “Ou teste com um exemplo” e clique em “Carregar”.
 3. Ouça o áudio e confira os limites de início e fim. A referência anotada aparece separadamente da previsão.
 4. Clique em “Analisar ciclo respiratório”.
-5. Examine a categoria prevista, as pontuações, o espectrograma e os avisos.
-6. Use “Salvar resultado em JSON” se desejar guardar a saída no computador.
+5. Confira a categoria prevista e as quatro pontuações.
+6. Abra “Espectrograma e detalhes” para ver o gráfico, consultar avisos ou salvar o JSON.
 
-Os quatro exemplos são ciclos da partição de teste, um por categoria. Foram escolhidos pelo primeiro ciclo elegível em uma ordenação determinística, sem selecionar os acertos do modelo. Sua origem está em examples/index.json e examples/ORIGEM.md.
+Os 16 exemplos vêm da partição de teste, quatro por categoria. A seleção usa uma ordenação fixa e pacientes distintos dentro de cada categoria. A origem de cada ciclo está registrada em examples/index.json e examples/ORIGEM.md.
 
 ## 4. Analisar outro WAV
 
@@ -56,6 +56,8 @@ Selecione um arquivo ou arraste-o para a área de envio. Use início e fim para 
 
 A aplicação rejeita silêncio ou entradas tecnicamente inválidas. Ela não verifica automaticamente se um arquivo válido é uma ausculta pulmonar nem se o trecho escolhido contém uma respiração completa. A seleção do ciclo é manual nesta versão.
 
+Mensagens de voz em OGG ou Opus são recusadas pelo formato. A conversão de fala para WAV permite a leitura técnica do arquivo e pode gerar uma categoria inadequada. Use gravações de ausculta feitas com estetoscópio.
+
 ## 5. Interpretar a saída
 
 As categorias são “Sem sibilos/estertores”, “Estertores”, “Sibilos” e “Ambos”. A saída descreve padrões acústicos aprendidos; não constitui diagnóstico de uma doença.
@@ -64,7 +66,7 @@ As pontuações softmax expressam a preferência do modelo entre as categorias. 
 
 O módulo cardíaco não está implementado. Nenhum resultado desta tela corresponde à detecção de arritmias.
 
-O desempenho experimental é limitado: o macro-F1 da CNN no teste foi 0,3216. Um exemplo classificado corretamente não representa o desempenho de todos os pacientes. A comparação completa com os outros modelos está em reports/RESULTADOS.md.
+O macro-F1 da CNN por faixas no teste foi 0,3611. A avaliação por classe está no [relatório da versão 1.1](../reports/REFINAMENTO_CNN.md).
 
 ## 6. Resolver problemas
 

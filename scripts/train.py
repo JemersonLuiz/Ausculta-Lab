@@ -76,32 +76,37 @@ def make_predictions(model, features, batch_size=64):
     return np.concatenate(outputs)
 
 
-def export_examples(frame, output_dir: Path, maximum=4):
+def export_examples(frame, output_dir: Path, per_class=4):
     output_dir.mkdir(parents=True, exist_ok=True)
     examples = []
     test = frame[frame.split == "test"]
     for label in range(4):
         choices = test[(test.label == label) & ((test.end_s - test.start_s) >= 1) & ((test.end_s - test.start_s) <= 10)]
-        if choices.empty:
-            continue
-        # Primeiro exemplo elegível, não escolhido por acerto do modelo.
-        row = choices.sort_values(["patient_id", "recording_id", "start_s"]).iloc[0]
-        audio_path = Path(row.audio_path)
-        if not audio_path.is_absolute():
-            audio_path = ROOT / audio_path
-        samples, rate = sf.read(audio_path, dtype="float32", always_2d=True)
-        selected = samples[int(round(row.start_s * rate)):int(round(row.end_s * rate))]
-        name = f"ciclo_teste_{label}.wav"
-        sf.write(output_dir / name, selected, rate, subtype="PCM_16")
-        examples.append({"id": str(label), "name": f"Exemplo de teste · {CLASS_NAMES[label]}",
-                         "label": CLASS_NAMES[label], "start": 0.0, "end": len(selected) / rate,
-                         "file": name, "patient_id": str(row.patient_id), "recording_id": str(row.recording_id),
-                         "source_start_s": float(row.start_s), "source_end_s": float(row.end_s),
-                         "selection": "primeiro ciclo elegível por classe; não selecionado pelo acerto"})
-    save_json(output_dir / "index.json", examples[:maximum])
+        choices = choices.sort_values(["patient_id", "recording_id", "start_s"])
+        choices = choices.drop_duplicates("patient_id").head(per_class)
+        for number, row in enumerate(choices.itertuples(), 1):
+            audio_path = Path(row.audio_path)
+            if not audio_path.is_absolute():
+                audio_path = ROOT / audio_path
+            with sf.SoundFile(audio_path) as source:
+                rate = source.samplerate
+                start, end = round(row.start_s * rate), round(row.end_s * rate)
+                source.seek(start)
+                selected = source.read(end - start, dtype="float32", always_2d=True)
+            example_id = str(label) if number == 1 else f"{label}-{number}"
+            name = f"ciclo_teste_{example_id}.wav"
+            sf.write(output_dir / name, selected, rate, subtype="PCM_16")
+            examples.append({"id": example_id, "name": f"{CLASS_NAMES[label]} · Exemplo {number}",
+                             "label": CLASS_NAMES[label], "start": 0.0, "end": len(selected) / rate,
+                             "file": name, "patient_id": str(row.patient_id), "recording_id": str(row.recording_id),
+                             "source_start_s": float(row.start_s), "source_end_s": float(row.end_s),
+                             "selection": "primeiro ciclo elegível por paciente e classe, em ordem fixa; não selecionado pelo acerto"})
+    examples.sort(key=lambda example: (len(example["id"]) > 1, example["id"]))
+    save_json(output_dir / "index.json", examples)
     (output_dir / "ORIGEM.md").write_text(
         "# Exemplos de pesquisa\n\nRecortes reais da ICBHI 2017, exclusivamente da partição de teste. "
         "São exemplos acadêmicos, não gravações produzidas por este projeto. "
+        "Até quatro recortes por classe, de pacientes distintos dentro de cada classe, em ordem fixa. "
         "A identidade técnica da origem, limites e classe constam em index.json. "
         "Não foram escolhidos para favorecer o modelo. Consulte docs/DADOS.md para fonte, termos e citação.\n",
         encoding="utf-8")

@@ -85,7 +85,7 @@ def create_app(project_root: Path | None = None, model_dir: Path | None = None) 
         audit = audit or _read_json(model_path / "dataset.json", {})
         comparison = _read_json(model_path / "metrics.json", {})
         return {"version": __version__, "model_ready": ready,
-                "model": {"name": "CNN respiratória compacta", "task": "Classificação de ciclos respiratórios",
+                "model": {"name": metadata.get("name", "CNN respiratória"), "task": "Classificação de ciclos respiratórios",
                           "classes": CLASS_NAMES, "trained_at": metadata.get("trained_at"),
                           "metrics": comparison.get("cnn", {}).get("test", {}), "comparison": comparison,
                           "limitations": LIMITATIONS, "metadata": metadata},
@@ -138,7 +138,8 @@ def create_app(project_root: Path | None = None, model_dir: Path | None = None) 
                 "audio": {"duration_s": audio.duration_s, "sample_rate": audio.sample_rate, "channels": audio.channels},
                 "segment": {"start": start, "end": end, "duration_s": end - start},
                 "quality": {"warnings": quality_warnings(selected, audio.sample_rate)},
-                "spectrogram_png": png, "model": {"name": "CNN respiratória compacta", "version": __version__},
+                "spectrogram_png": png, "model": {"name": predictor.metadata.get("name", "CNN respiratória"),
+                                                 "version": predictor.metadata.get("version", __version__)},
                 "limitations": LIMITATIONS}
 
     application.add_middleware(TrustedHostMiddleware, allowed_hosts=["127.0.0.1", "localhost", "[::1]", "testserver"])

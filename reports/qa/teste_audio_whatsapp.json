@@ -1,0 +1,54 @@
+{
+  "source": "https://librivox.org/short-poetry-collection-001/",
+  "recording": "Abou Ben Adhem, leitura de Peter Yearsley",
+  "source_url": "https://archive.org/download/short_poetry_001_librivox/abou_hunt_py.mp3",
+  "source_segment_s": [
+    9,
+    14
+  ],
+  "ogg_is_whatsapp_format_simulation": true,
+  "seconds": 5,
+  "channels": 1,
+  "rate_hz": 48000,
+  "results": [
+    {
+      "file": "voz-externa.opus",
+      "sha256": "7acb62a635815358a18ef098434c2f9a27bb2bd9274d3e2a432464463f84ebd2",
+      "status": 422,
+      "response": "Arquivo OGG ou Opus. Para analisar, escolha uma gravação de ausculta em WAV."
+    },
+    {
+      "file": "renomeado.wav",
+      "sha256": "7acb62a635815358a18ef098434c2f9a27bb2bd9274d3e2a432464463f84ebd2",
+      "status": 422,
+      "response": "Arquivo OGG ou Opus. Para analisar, escolha uma gravação de ausculta em WAV."
+    },
+    {
+      "file": "voz-externa-convertida.wav",
+      "sha256": "acbbb804b1b1a49f2e47aa2b54ae6f8080937028131eaf3bc27fcd4cd1e9b1a1",
+      "status": 200,
+      "response": {
+        "label": "Ambos",
+        "index": 3,
+        "scores": [
+          {
+            "label": "Sem sibilos/estertores",
+            "score": 0.2536638379096985
+          },
+          {
+            "label": "Estertores",
+            "score": 0.07324007153511047
+          },
+          {
+            "label": "Sibilos",
+            "score": 0.32337796688079834
+          },
+          {
+            "label": "Ambos",
+            "score": 0.3497181236743927
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -36,5 +36,5 @@
     }
   },
   "split_protocol": "teste oficial preservado; gravações de treino de pacientes presentes no teste excluídas; validação interna por paciente",
-  "manifest_sha256": "f32575d2c5a808753fc6b5dc4ac8417623365b76561f7bc32560f7c24bf55523"
+  "manifest_sha256": "82f55e28a277951d5fe236f227479fddd39160f4924baa81d66c702c0ce53712"
 }

@@ -1,6 +1,6 @@
 {
-  "version": "1.1.0",
-  "name": "CNN respiratória por faixas",
+  "version": "2.0.0",
+  "name": "Ensemble RespiraNet v2.0 (invariante a estetoscópio)",
   "task": "pulmonar_4_classes",
   "classes": [
     "Sem sibilos/estertores",
@@ -9,40 +9,73 @@
     "Ambos"
   ],
   "feature_config": {
-    "version": "logmel-v1",
+    "version": "logmel-bp-v3",
     "sample_rate": 4000,
+    "fmin_hz": 80.0,
+    "fmax_hz": 1200.0,
+    "bandpass_order": 4,
     "n_fft": 256,
-    "hop_length": 64,
+    "hop_length": 32,
     "n_mels": 64,
     "time_bins": 256,
-    "dynamic_range_db": 80.0,
+    "min_dynamic_span_db": 25.0,
+    "low_percentile": 5.0,
+    "reference_percentile": 99.5,
     "temporal_policy": "interpolate_whole_cycle_no_crop"
   },
-  "architecture_id": "band_cnn_v2",
-  "architecture": "BandCNN: Conv 24/32/48/64, pooling médio/máximo por faixas, FC96/4",
-  "parameters": 148300,
-  "trained_at": "2026-11-06T01:53:25.193140+00:00",
+  "architecture_id": "respira_ensemble_v2",
+  "architecture": "EnsembleRespiraNet: 5x RespiraSEBandNet + 5x RespiraDilatedNet + 5x SpectralGatedMLP (CMN 192-d), invariante a estetoscópio + cabeçalho multitarefa",
+  "parameters": 3574755,
+  "trained_at": "2026-11-21T23:21:33.165674+00:00",
   "seed": 42,
-  "best_epoch": 5,
-  "epochs_executed": 12,
-  "maximum_epochs": 24,
-  "batch_size": 64,
-  "optimizer": "AdamW",
-  "learning_rate": 0.001,
-  "class_weights": [
-    0.7255377769470215,
-    0.9019819498062134,
-    1.4591798782348633,
-    1.8011932373046875
+  "cv_folds": 5,
+  "best_epoch": 13,
+  "seband_best_epochs": [
+    6,
+    16,
+    7,
+    13,
+    15
   ],
-  "manifest_sha256": "f32575d2c5a808753fc6b5dc4ac8417623365b76561f7bc32560f7c24bf55523",
-  "weights_sha256": "99f2b275e1d4ae409f4d1ad6ea53110e3ec2b555b1ea1bbbdb6db2fca6bfacf7",
-  "clinical_validation": false,
-  "arrhythmia_available": false,
+  "dilated_best_epochs": [
+    9,
+    12,
+    11,
+    15,
+    14
+  ],
+  "stats_mlp_best_epochs": [
+    21,
+    26,
+    12,
+    10,
+    11
+  ],
+  "epochs_executed": 32,
+  "maximum_epochs": 32,
+  "batch_size": 96,
+  "optimizer": "AdamW",
+  "learning_rate": 0.0022,
+  "branch_weights": [
+    0.19249999523162842,
+    0.35749998688697815,
+    0.44999998807907104
+  ],
+  "temperature": 0.85,
+  "stats_temperature": 1.5,
   "decision_offsets": [
     0.0,
-    -0.5,
-    -1.25,
-    -1.0
-  ]
+    0.0,
+    0.18000000715255737,
+    0.23999999463558197
+  ],
+  "manifest_sha256": "82f55e28a277951d5fe236f227479fddd39160f4924baa81d66c702c0ce53712",
+  "weights_sha256": "5f13ecd33b458ff45e4483019bc369e9dcd80a36a6008651616216dc58d85a98",
+  "python": "3.13.2",
+  "torch": "2.14.1+cpu",
+  "numpy": "2.5.4",
+  "training_seconds": 161.05,
+  "clinical_validation": false,
+  "arrhythmia_available": false,
+  "cache_quantization": "none; float32 in training and inference"
 }

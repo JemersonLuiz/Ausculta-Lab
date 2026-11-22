@@ -2,7 +2,7 @@
   "dataset_id": "ICBHI2017",
   "seed": 42,
   "split_protocol": "official_test_overlap_train_excluded_validation_20pct_of_training",
-  "official_split_path": "C:\\Users\\User\\OneDrive\\Documentos\\ChatGPT\\REA\\projeto-triagem-cardiopulmonar\\data\\raw\\icbhi\\ICBHI_challenge_train_test.txt",
+  "official_split_path": "data/raw/icbhi/ICBHI_challenge_train_test.txt",
   "official_overlap_policy": "exclude_train",
   "official_overlap_patients": [
     "156",

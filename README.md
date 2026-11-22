@@ -2,7 +2,13 @@
 
 Classificação de ciclos respiratórios com processamento de áudio e uma CNN, acompanhada de modelo convencional, resultados rastreáveis e testes.
 
-**Versão 1.1.0:** tela de análise simplificada, 16 ciclos de exemplo e CNN por faixas. O resultado destaca a categoria prevista e as quatro pontuações. O espectrograma e a exportação JSON ficam em “Espectrograma e detalhes”. Consulte a [comparação por categoria e o teste com voz externa](reports/REFINAMENTO_CNN.md).
+**Versão 2.0.0:** novo modelo **Ensemble RespiraNet v2.0** invariante a estetoscópios (`logmel-bp-v3` 80–1.200 Hz + 5× `RespiraSEBandNet` + 5× `RespiraDilatedNet` + 5× `SpectralGatedMLP`, empacotado em um único `models/cnn.pt` carregado com `weights_only=True`) e **interface web local redesenhada** (100% offline, sem CDN). No teste reservado por paciente (49 pacientes · 2.756 ciclos, sem vazamento), a v2.0 evoluiu frente à v1.1 em **acurácia (45,46% → 55,12%, +9,65 p.p.)**, **Macro-F1 (0,3611 → 0,4034, +0,0423)**, **acurácia balanceada (37,47% → 39,80%, +2,33 p.p.)** e **escore ICBHI (44,50% → 52,91%, +8,41 p.p.)**, praticamente dobrando o acerto no estetoscópio Littmann 3200 (22,13% → 43,38%). Consulte o [relatório completo da versão 2.0](reports/REFINAMENTO_V2.md) e o [histórico da versão 1.1](reports/REFINAMENTO_CNN.md).
+
+**Destaques da interface v2.0 (`web/`):**
+- Forma de onda interativa com seleção por arraste, alças móveis, *playhead* animado ao vivo e ajuste fino (±0,1 s).
+- Estúdio de escuta via Web Audio API: filtro pulmonar em tempo real (80–1.600 Hz), repetição em *loop*, ganho 2×, reprodução lenta (0,75×) e sugestão automática de ciclos em gravações longas.
+- Carregamento em 1 clique por categoria, comparação automática com a referência anotada nos 16 exemplos, indicadores independentes de estertores e sibilos, abas de **Espectrograma**, **Mapa de contraste acústico** e **Detalhes técnicos**, histórico da sessão e exportação/cópia do resumo.
+- Painel **Desempenho & Validação Científica** com gráfico comparativo interativo (Maioria, RF, CNN v1.0, CNN v1.1 e Ensemble v2.0), matriz de confusão interativa e tabela por categoria.
 
 **Escopo entregue:** pulmonar, quatro categorias acústicas. O módulo de arritmia não está implementado e aparece como indisponível. O modelo é experimental e não possui validação clínica. O planejamento inicial de um mês foi mantido na documentação como contexto; a demonstração foi implementada como aplicação web local, sem hospedagem externa.
 
@@ -46,7 +52,8 @@ O primeiro comando exige os artefatos reais incluídos no pacote. Fixtures sint�
 - [Ficha de experimento](docs/REGISTRO_EXPERIMENTO.md): registro completo de cada execução real.
 - [Experimento 001 executado](docs/EXPERIMENTO_001.md): ficha preenchida com configuração, dados, resultados e decisões.
 - [Dados e proveniência](docs/DADOS.md): aquisição, integridade, termos e correção das partições.
-- [CNN por faixas](reports/REFINAMENTO_CNN.md): comparação de acertos por categoria, decisões do experimento e teste com fala.
+- [Ensemble RespiraNet v2.0](reports/REFINAMENTO_V2.md): relatório científico da versão 2.0, métricas por categoria/estetoscópio e figuras comparativas.
+- [CNN por faixas (v1.1)](reports/REFINAMENTO_CNN.md): comparação de acertos por categoria, decisões do experimento e teste com fala.
 - [Resultados da versão 1.0](reports/RESULTADOS.md): métricas, figuras e interpretação do experimento original.
 - [QA independente](docs/QA_INDEPENDENTE.md): testes, achados e retestes.
 - [docs/PLANO_IMPLEMENTACAO.md](docs/PLANO_IMPLEMENTACAO.md): tarefas e critérios de aceite para construir o protótipo.
@@ -85,7 +92,16 @@ projeto-triagem-cardiopulmonar/
 
 ## Reproduzir os experimentos
 
-O refinamento da CNN e a avaliação usam `scripts/refine_model.py`. Os comandos e o protocolo estão no [relatório da versão 1.1](reports/REFINAMENTO_CNN.md).
+Para reproduzir a **versão 2.0** (validação cruzada 5-fold por paciente nos 77 pacientes de treino/validação, calibração OOF e avaliação única nos 49 pacientes de teste):
+
+```powershell
+.\.venv\Scripts\python.exe scripts\download_data.py
+.\.venv\Scripts\python.exe scripts\train_v2.py --seed 42
+.\.venv\Scripts\python.exe scripts\write_report_v2.py
+.\.venv\Scripts\python.exe scripts\retest.py --full
+```
+
+O refinamento da versão 1.1 usa `scripts/refine_model.py` (protocolo em [REFINAMENTO_CNN.md](reports/REFINAMENTO_CNN.md)).
 
 Para refazer a versão 1.0, use uma cópia separada. Obtenha a base seguindo [DADOS.md](docs/DADOS.md), preservando a origem e as condições de pesquisa. Depois:
 

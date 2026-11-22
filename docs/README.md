@@ -13,7 +13,7 @@ A referência para métricas finais é models/metrics.json e reports/RESULTADOS.
 3. Executar INICIAR.bat e acessar http://127.0.0.1:8765.
 4. Carregar um exemplo real, conferir o ciclo e analisar.
 
-O modelo, 16 exemplos reais e a documentação acompanham o pacote. Consulte o [manual](MANUAL_USO.md) para uso e solução de problemas. Os relatórios do experimento 001 descrevem a versão 1.0. A comparação do modelo atual está no [relatório da versão 1.1](../reports/REFINAMENTO_CNN.md).
+O modelo, 16 exemplos reais e a documentação acompanham o pacote. Consulte o [manual](MANUAL_USO.md) para uso e solução de problemas. Os relatórios do experimento 001 descrevem a versão 1.0, o [relatório da versão 1.1](../reports/REFINAMENTO_CNN.md) registra a CNN por faixas e a evolução atual está no [relatório da versão 2.0](../reports/REFINAMENTO_V2.md).
 
 ## Documentos
 

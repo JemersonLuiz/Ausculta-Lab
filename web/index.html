@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark">
-  <meta name="description" content="Analise um ciclo respiratório em uma gravação de ausculta.">
+  <meta name="description" content="Ausculta Lab — estação acadêmica local de análise acústica de ciclos respiratórios com IA.">
   <title>Ausculta Lab · Análise respiratória</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23003734'/%3E%3Cpath d='M3 17h6l3-8 5 15 4-11 3 4h5' fill='none' stroke='%23cbfffc' stroke-width='2'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="/style.css">
@@ -12,122 +12,392 @@
 </head>
 <body id="top">
   <a class="skip-link" href="#analysis">Ir para a análise</a>
+
   <header class="site-header">
     <div class="shell header-inner">
       <a class="brand" href="#top" aria-label="Ausculta Lab, início">
-        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M3 17h6l3-8 5 15 4-11 3 4h5"/></svg></span>
-        <span>Ausculta Lab</span>
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32"><path d="M3 17h6l3-8 5 15 4-11 3 4h5"/></svg>
+        </span>
+        <span class="brand-text">
+          <span>Ausculta Lab</span>
+          <span class="version-chip" id="versionChip">v2.0</span>
+        </span>
       </a>
+
       <nav aria-label="Navegação principal">
-        <a href="#analysis" aria-current="location">Analisar áudio</a>
-        <a href="#help">Como usar</a>
+        <a class="nav-link active" href="#analysis" aria-current="location">Analisar áudio</a>
+        <a class="nav-link" href="#performance">Desempenho</a>
+        <a class="nav-link" href="#help">Como usar</a>
       </nav>
-      <span class="status-pill checking" id="modelState" role="status"><span class="status-dot"></span><span id="modelStateText">Conectando</span></span>
+
+      <span class="status-pill checking" id="modelState" role="status">
+        <span class="status-dot"></span>
+        <span id="modelStateText">Conectando</span>
+      </span>
     </div>
   </header>
 
   <main class="shell">
     <section class="hero" aria-labelledby="pageTitle">
       <div class="hero-copy">
-        <p class="eyebrow">Ausculta digital</p>
-        <h1 id="pageTitle">Análise de sons<br class="hero-break"> respiratórios</h1>
-        <p class="hero-description">Envie uma gravação de ausculta ou escolha um exemplo para analisar um ciclo respiratório.</p>
+        <p class="eyebrow">Ausculta digital · Processamento acústico local</p>
+        <h1 id="pageTitle">Análise inteligente de<br class="hero-break"> sons respiratórios</h1>
+        <p class="hero-description">
+          Carregue uma gravação de estetoscópio em WAV ou teste um ciclo real do conjunto reservado para inspecionar forma de onda, filtro pulmonar, espectrograma e classificação por IA.
+        </p>
+        <div class="hero-kpis" id="heroKpis" aria-label="Indicadores do modelo ativo">
+          <div class="kpi-chip">
+            <span class="kpi-label">Acurácia (teste)</span>
+            <strong class="kpi-value" id="kpiAccuracy">—</strong>
+          </div>
+          <div class="kpi-chip">
+            <span class="kpi-label">Macro-F1</span>
+            <strong class="kpi-value" id="kpiMacroF1">—</strong>
+          </div>
+          <div class="kpi-chip">
+            <span class="kpi-label">Escore ICBHI</span>
+            <strong class="kpi-value" id="kpiIcbhi">—</strong>
+          </div>
+          <div class="kpi-chip">
+            <span class="kpi-label">Base auditada</span>
+            <strong class="kpi-value" id="kpiCycles">—</strong>
+          </div>
+        </div>
       </div>
-      <img class="hero-orb" src="/signal-orb.svg" width="450" height="310" alt="">
+      <div class="hero-visual" aria-hidden="true">
+        <div class="hero-glow"></div>
+        <img class="hero-orb" src="/signal-orb.svg" width="450" height="310" alt="">
+      </div>
     </section>
 
     <div id="globalMessage" class="message hidden" role="alert"></div>
 
-    <section class="analysis-grid" id="analysis" aria-label="Análise de áudio">
+    <section class="analysis-grid" id="analysis" aria-label="Estação de análise de áudio">
+      <!-- PAINEL 01: ENTRADA & ESTÚDIO INTERATIVO -->
       <article class="panel input-panel" aria-labelledby="inputTitle">
         <div class="panel-heading">
-          <div><p class="eyebrow">01 / Entrada</p><h2 id="inputTitle">Escolha um áudio</h2></div>
-          <span class="outline-tag">WAV</span>
+          <div>
+            <p class="eyebrow">01 / Entrada e seleção de ciclo</p>
+            <h2 id="inputTitle">Escolha um áudio</h2>
+          </div>
+          <span class="outline-tag" id="formatTag">WAV · Local</span>
         </div>
+
         <div class="dropzone" id="dropzone">
-          <span class="upload-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 16V4m-4 4 4-4 4 4M4 15v5h16v-5"/></svg></span>
-          <strong>Arraste um arquivo ou selecione abaixo</strong>
-          <small id="uploadLimits">WAV · até 20 MB</small>
-          <button class="button button-primary" type="button" id="uploadButton"><span id="uploadButtonText">Selecionar arquivo</span> <span aria-hidden="true">↗</span></button>
+          <span class="upload-symbol" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 16V4m-4 4 4-4 4 4M4 15v5h16v-5"/></svg>
+          </span>
+          <strong>Arraste uma gravação WAV ou selecione do computador</strong>
+          <small id="uploadLimits">WAV mono ou estéreo · até 20 MB · até 120 s</small>
+          <button class="button button-primary" type="button" id="uploadButton">
+            <span id="uploadButtonText">Selecionar arquivo</span>
+            <span aria-hidden="true">↗</span>
+          </button>
           <input type="file" id="audioFile" accept=".wav,audio/wav,audio/x-wav" hidden>
         </div>
+
         <div class="example-row">
-          <label for="exampleSelect">Ou teste com um exemplo</label>
+          <div class="example-header">
+            <label for="exampleSelect">Ou teste com exemplos reais da partição de teste (ICBHI)</label>
+          </div>
+          <div class="quick-examples" id="quickExamples" aria-label="Acesso rápido por categoria"></div>
           <div class="example-controls">
-            <select id="exampleSelect" disabled><option value="">Carregando exemplos…</option></select>
+            <select id="exampleSelect" disabled>
+              <option value="">Carregando exemplos…</option>
+            </select>
             <button class="button button-quiet" id="loadExample" type="button" disabled>Carregar</button>
           </div>
         </div>
 
         <div id="audioWorkspace" class="audio-workspace hidden">
           <div class="file-info">
-            <span class="file-symbol" aria-hidden="true">♪</span>
-            <div class="file-text"><strong id="fileName"></strong><span id="fileMeta"></span></div>
+            <span class="file-symbol" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M3 12h3l2-6 4 12 3-8 2 2h4"/></svg>
+            </span>
+            <div class="file-text">
+              <strong id="fileName"></strong>
+              <span id="fileMeta"></span>
+            </div>
             <button class="icon-button" type="button" id="clearFile" aria-label="Remover arquivo" title="Remover arquivo">×</button>
           </div>
-          <div class="waveform-wrap">
-            <canvas id="waveform" height="125" aria-label="Forma de onda com destaque do trecho"></canvas>
-            <div class="waveform-axis"><span>0 s</span><span id="waveformEnd"></span></div>
+
+          <div class="waveform-wrap" id="waveformWrap">
+            <div class="waveform-toolbar">
+              <span class="waveform-hint">Arraste na forma de onda ou mova as alças para recortar o ciclo</span>
+              <button class="chip-button" type="button" id="resetFullCycle" title="Selecionar toda a gravação">Ciclo inteiro</button>
+            </div>
+            <div class="waveform-stage">
+              <canvas id="waveform" height="148" aria-label="Forma de onda interativa com seleção de trecho"></canvas>
+              <div class="waveform-tooltip hidden" id="waveformTooltip" aria-hidden="true">0,00 s</div>
+            </div>
+            <div class="waveform-axis">
+              <span>0 s</span>
+              <span id="waveformMid"></span>
+              <span id="waveformEnd"></span>
+            </div>
           </div>
-          <audio id="audioPlayer" controls preload="metadata" aria-label="Ouvir a gravação selecionada"></audio>
+
+          <!-- Controles de Escuta Clínica (Web Audio API) -->
+          <div class="studio-bar" role="group" aria-label="Controles de escuta e filtro acústico">
+            <button class="button button-quiet studio-play" id="playSegment" type="button">
+              <span id="playSegmentIcon" aria-hidden="true">▶</span>
+              <span id="playSegmentText">Ouvir trecho</span>
+            </button>
+            <button class="chip-toggle" id="loopToggle" type="button" aria-pressed="false" title="Repetir o trecho selecionado">
+              ↻ Loop
+            </button>
+            <button class="chip-toggle" id="filterToggle" type="button" aria-pressed="false" title="Aplicar filtro passa-faixa pulmonar (80–1600 Hz) na reprodução">
+              ◌ Filtro pulmonar
+            </button>
+            <button class="chip-toggle" id="gainToggle" type="button" aria-pressed="false" title="Aumentar ganho da escuta para 2x">
+              + Ganho 2×
+            </button>
+            <button class="chip-toggle" id="speedToggle" type="button" aria-pressed="false" title="Reduzir velocidade para 0,75x para facilitar escuta de estertores">
+              ◷ 0,75×
+            </button>
+            <button class="chip-button hidden" id="detectCyclesBtn" type="button" title="Sugerir janelas candidatas de respiração pelo envelope de energia">
+              ✦ Sugerir ciclos
+            </button>
+          </div>
+
+          <div class="suggested-cycles hidden" id="suggestedCycles" aria-label="Ciclos sugeridos por envelope de energia"></div>
+
+          <audio id="audioPlayer" controls preload="metadata" aria-label="Reprodutor nativo da gravação"></audio>
+
           <div class="segment-heading">
-            <h3>Escolha uma respiração</h3>
-            <button class="text-button" id="playSegment" type="button">Ouvir trecho <span aria-hidden="true">↗</span></button>
+            <h3>Limites do ciclo respiratório</h3>
+            <span class="duration-pill" id="segmentDuration">—</span>
           </div>
+
           <div class="segment-inputs">
-            <label for="startTime">Início (s)<input id="startTime" type="number" value="0" min="0" step="any" inputmode="decimal"></label>
-            <label for="endTime">Fim (s)<input id="endTime" type="number" min="0.1" step="any" inputmode="decimal"></label>
-            <div class="segment-duration"><span>Duração</span><strong id="segmentDuration">—</strong></div>
+            <div class="time-field">
+              <label for="startTime">Início (s)</label>
+              <div class="nudge-group">
+                <button class="nudge-btn" type="button" data-target="startTime" data-delta="-0.1" aria-label="Diminuir início em 0,1 s">−</button>
+                <input id="startTime" type="number" value="0" min="0" step="0.01" inputmode="decimal">
+                <button class="nudge-btn" type="button" data-target="startTime" data-delta="0.1" aria-label="Aumentar início em 0,1 s">+</button>
+              </div>
+            </div>
+            <div class="time-field">
+              <label for="endTime">Fim (s)</label>
+              <div class="nudge-group">
+                <button class="nudge-btn" type="button" data-target="endTime" data-delta="-0.1" aria-label="Diminuir fim em 0,1 s">−</button>
+                <input id="endTime" type="number" min="0.1" step="0.01" inputmode="decimal">
+                <button class="nudge-btn" type="button" data-target="endTime" data-delta="0.1" aria-label="Aumentar fim em 0,1 s">+</button>
+              </div>
+            </div>
           </div>
+
           <p class="field-error hidden" id="segmentError" role="alert"></p>
-          <label class="confirmation"><input type="checkbox" id="cycleConfirmed"><span>O trecho contém um ciclo de ausculta respiratória, sem fala ou música.</span></label>
+
           <p class="reference-note hidden" id="referenceNote"></p>
-          <button class="button button-primary analyze-button" type="button" id="analyzeButton" disabled><span id="analyzeButtonText">Analisar ciclo respiratório</span><span aria-hidden="true">→</span></button>
+
+          <label class="confirmation">
+            <input type="checkbox" id="cycleConfirmed">
+            <span>Confirmo que o trecho delimitado contém um ciclo de ausculta respiratória (sem fala ou música).</span>
+          </label>
+
+          <button class="button button-primary analyze-button" type="button" id="analyzeButton" disabled>
+            <span id="analyzeButtonText">Analisar ciclo respiratório</span>
+            <span class="analyze-arrow" aria-hidden="true">→</span>
+          </button>
           <p class="helper" id="analyzeHelp"></p>
         </div>
       </article>
 
+      <!-- PAINEL 02: RESULTADO & EVIDÊNCIAS ACÚSTICAS -->
       <article class="panel result-panel" aria-labelledby="resultTitle">
         <div class="panel-heading">
-          <div><p class="eyebrow">02 / Resultado</p><h2 id="resultTitle">Sua análise</h2></div>
+          <div>
+            <p class="eyebrow">02 / Resultado e evidências</p>
+            <h2 id="resultTitle">Diagnóstico acústico</h2>
+          </div>
           <span class="outline-tag" id="resultTag">Aguardando áudio</span>
         </div>
+
         <div class="result-empty" id="resultEmpty">
-          <div class="signal-art" aria-hidden="true"><svg viewBox="0 0 100 74"><path d="M0 37h16l7-14 9 31 10-43 11 52 9-37 8 20 7-9h23"/></svg></div>
-          <h3>O resultado aparece aqui</h3>
-          <p>Carregue um áudio e analise uma respiração para ver as quatro pontuações.</p>
-        </div>
-        <div class="analysis-progress hidden" id="analysisProgress" role="status"><span class="spinner" aria-hidden="true"></span><strong>Analisando o trecho…</strong></div>
-        <div id="resultContent" class="result-content hidden" aria-live="polite">
-          <div class="prediction-block">
-            <p class="eyebrow">Categoria prevista</p>
-            <h3 id="predictionLabel"></h3>
-            <p id="predictionMeta"></p>
+          <div class="signal-art" aria-hidden="true">
+            <svg viewBox="0 0 100 74"><path d="M0 37h16l7-14 9 31 10-43 11 52 9-37 8 20 7-9h23"/></svg>
           </div>
-          <div class="score-list" id="scoreList" aria-label="Pontuações por categoria"></div>
-          <p class="helper">Pontuações de um protótipo de pesquisa. Interprete como classificação do som.</p>
-          <details class="result-details" id="resultDetails">
-            <summary>Espectrograma e detalhes</summary>
-            <img id="spectrogramImage" alt="Espectrograma do trecho analisado">
-            <p id="spectrogramUnavailable" class="hidden">Espectrograma indisponível.</p>
-            <div class="quality-message hidden" id="qualityMessage"></div>
-            <button class="text-button download-result" id="downloadResult" type="button">Salvar resultado em JSON <span aria-hidden="true">↓</span></button>
-          </details>
+          <h3>Pronto para classificar</h3>
+          <p>Carregue um WAV ou clique em um dos exemplos reais à esquerda para visualizar as probabilidades, detecção de estertores/sibilos e o espectrograma.</p>
+          <div class="shortcuts-hint">
+            <span><kbd>Espaço</kbd> ouvir trecho</span>
+            <span><kbd>Enter</kbd> analisar</span>
+          </div>
+        </div>
+
+        <div class="analysis-progress hidden" id="analysisProgress" role="status">
+          <div class="wave-loader" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <strong>Extraindo espectrograma e inferindo…</strong>
+          <small>Processamento determinístico 100% local</small>
+        </div>
+
+        <div id="resultContent" class="result-content hidden" aria-live="polite">
+          <div class="prediction-card" id="predictionCard">
+            <div class="prediction-top">
+              <div>
+                <p class="eyebrow">Categoria prevista</p>
+                <h3 id="predictionLabel"></h3>
+              </div>
+              <div class="prediction-badges">
+                <span class="metric-badge" id="confidenceBadge"></span>
+                <span class="metric-badge subtle" id="marginBadge"></span>
+              </div>
+            </div>
+            <p class="prediction-meta" id="predictionMeta"></p>
+            <div class="reference-compare hidden" id="referenceComparison"></div>
+          </div>
+
+          <!-- Decomposição Independente: Estertores vs Sibilos -->
+          <div class="event-gauges" aria-label="Presença estimada por tipo de som adventício">
+            <div class="event-gauge">
+              <div class="event-gauge-head">
+                <span>Estertores (impulsivos)</span>
+                <strong id="crackleProb">—</strong>
+              </div>
+              <div class="gauge-track"><div class="gauge-fill crackle" id="crackleBar"></div></div>
+            </div>
+            <div class="event-gauge">
+              <div class="event-gauge-head">
+                <span>Sibilos (tonais)</span>
+                <strong id="wheezeProb">—</strong>
+              </div>
+              <div class="gauge-track"><div class="gauge-fill wheeze" id="wheezeBar"></div></div>
+            </div>
+          </div>
+
+          <div class="score-list" id="scoreList" aria-label="Pontuações nas quatro categorias"></div>
+
+          <p class="acoustic-note" id="acousticNote"></p>
+
+          <!-- Abas de Evidências Visuais -->
+          <div class="evidence-tabs">
+            <div class="tab-bar" role="tablist" aria-label="Visualizações da análise">
+              <button class="tab-btn active" type="button" role="tab" aria-selected="true" data-tab="spec">Espectrograma</button>
+              <button class="tab-btn" type="button" role="tab" aria-selected="false" data-tab="contrast" id="contrastTabBtn">Contraste acústico</button>
+              <button class="tab-btn" type="button" role="tab" aria-selected="false" data-tab="tech">Detalhes técnicos</button>
+            </div>
+
+            <div class="tab-panel" data-panel="spec">
+              <img id="spectrogramImage" class="evidence-img" alt="Espectrograma log-Mel do trecho analisado">
+              <p id="spectrogramUnavailable" class="helper hidden">Espectrograma indisponível.</p>
+              <p class="evidence-caption">Espectrograma log-Mel filtrado na faixa pulmonar. Bandas horizontais sustentadas sugerem sibilos; impulsos verticais curtos sugerem estertores.</p>
+            </div>
+
+            <div class="tab-panel hidden" data-panel="contrast">
+              <img id="contrastImage" class="evidence-img" alt="Mapa de contraste acústico invariante a dispositivo">
+              <p id="contrastUnavailable" class="helper hidden">Mapa de contraste indisponível para este resultado.</p>
+              <p class="evidence-caption">Representação após subtração de resposta estacionária do estetoscópio: realça cristas tonais estreitas (sibilos) e transientes rápidos (estertores).</p>
+            </div>
+
+            <div class="tab-panel hidden" data-panel="tech">
+              <div class="tech-grid" id="techTelemetry"></div>
+              <div class="quality-message hidden" id="qualityMessage"></div>
+            </div>
+          </div>
+
+          <div class="result-actions">
+            <button class="button button-quiet" id="downloadResult" type="button">Salvar JSON ↓</button>
+            <button class="button button-quiet" id="copySummary" type="button">Copiar resumo</button>
+          </div>
+        </div>
+
+        <div class="session-history hidden" id="sessionHistoryWrap">
+          <div class="history-head">
+            <span class="eyebrow">Histórico desta sessão</span>
+            <button class="text-button" type="button" id="clearHistory">Limpar</button>
+          </div>
+          <div class="history-list" id="sessionHistory"></div>
         </div>
       </article>
     </section>
 
+    <!-- SEÇÃO 03: DESEMPENHO REAL & VALIDAÇÃO CIENTÍFICA -->
+    <section class="performance-section" id="performance" aria-labelledby="perfTitle">
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">03 / Evidências científicas no conjunto reservado</p>
+          <h2 id="perfTitle">Desempenho e comparação de modelos</h2>
+        </div>
+        <div class="metric-switcher" id="metricSwitcher" role="group" aria-label="Escolher métrica comparativa">
+          <button class="chip-toggle active" type="button" data-metric="accuracy">Acurácia</button>
+          <button class="chip-toggle" type="button" data-metric="macro_f1">Macro-F1</button>
+          <button class="chip-toggle" type="button" data-metric="icbhi_score">Escore ICBHI</button>
+          <button class="chip-toggle" type="button" data-metric="balanced_accuracy">Acurácia bal.</button>
+        </div>
+      </div>
+
+      <div class="perf-grid">
+        <article class="panel perf-card">
+          <h3>Evolução entre modelos</h3>
+          <p class="helper" id="perfSubtitle">Avaliação estrita por paciente em 2.756 ciclos reais de 49 pacientes reservados.</p>
+          <div class="model-bars" id="modelComparisonBars"></div>
+          <p class="ci-note" id="ciNote"></p>
+        </article>
+
+        <article class="panel perf-card">
+          <h3>Matriz de confusão (modelo ativo)</h3>
+          <p class="helper">Linhas: categoria anotada · Colunas: categoria prevista no teste reservado.</p>
+          <div class="cm-wrap" id="confusionMatrix"></div>
+        </article>
+      </div>
+
+      <div class="perf-grid secondary">
+        <article class="panel perf-card">
+          <h3>Desempenho por categoria acústica</h3>
+          <div class="table-scroll">
+            <table class="metrics-table" id="perClassTable">
+              <thead>
+                <tr>
+                  <th>Categoria</th>
+                  <th>Ciclos</th>
+                  <th>Sensibilidade</th>
+                  <th>Especificidade</th>
+                  <th>Precisão</th>
+                  <th>F1</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </article>
+
+        <article class="panel perf-card">
+          <h3>Protocolo, base e limitações</h3>
+          <div class="dataset-pills" id="datasetPills"></div>
+          <ul class="limitations-list" id="limitationsList"></ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- SEÇÃO 04: AJUDA -->
     <section class="help-panel" id="help" aria-label="Ajuda para usar a análise">
-      <details>
-        <summary>Como escolher um trecho?</summary>
-        <p>Ouça a gravação e marque o início e o fim de uma respiração. Os exemplos já vêm recortados. Para um áudio próprio, selecione entre 0,1 e 20 segundos.</p>
+      <details open>
+        <summary>Como selecionar um ciclo respiratório com precisão?</summary>
+        <p>Clique e arraste diretamente sobre a forma de onda ou movimente as alças laterais. Use o <strong>Filtro pulmonar (80–1600 Hz)</strong> e a velocidade <strong>0,75×</strong> para destacar estertores e sibilos. Em gravações longas, clique em <strong>Sugerir ciclos</strong> para localizar respirações candidatas automaticamente.</p>
       </details>
       <details>
-        <summary>Posso usar um áudio do WhatsApp?</summary>
-        <p>O site aceita gravações de ausculta em WAV. Mensagens em OGG ou Opus são recusadas. Se o conteúdo for fala, mudar o formato para WAV ainda pode produzir uma classificação enganosa.</p>
+        <summary>O que diferencia esta versão da anterior?</summary>
+        <p>O processamento agora aplica filtragem passa-faixa na faixa pulmonar e normalização espectral invariante ao estetoscópio, eliminando o viés entre equipamentos (como o corte de altas frequências do Littmann 3200). A arquitetura utiliza um conjunto (ensemble) de redes neurais multi-escala com atenção temporal e cabeçalho multitarefa para estertores e sibilos, avaliado na mesma partição reservada de 49 pacientes sem vazamento.</p>
+      </details>
+      <details>
+        <summary>Posso usar um áudio do WhatsApp ou gravação de fala?</summary>
+        <p>A aplicação aceita somente gravações de ausculta em formato WAV real. Mensagens de voz em OGG/Opus são recusadas automaticamente pela inspeção do cabeçalho. Mesmo convertendo fala para WAV, o resultado será fora do escopo — utilize sempre gravações de ausculta pulmonar.</p>
+      </details>
+      <details>
+        <summary>O módulo cardíaco / arritmia está disponível?</summary>
+        <p>Não. Conforme documentado no projeto, não há base pública de áudio cardíaco com confirmação de ritmo por ECG acoplada a esta entrega. A aplicação não simula nem inventa resultados cardíacos.</p>
       </details>
     </section>
-    <footer class="page-footer"><span>Ausculta Lab · Protótipo acadêmico</span><span>Processamento local</span></footer>
+
+    <footer class="page-footer">
+      <span>Ausculta Lab · Protótipo acadêmico experimental (sem validação clínica)</span>
+      <span>Processamento 100% local · Nenhum áudio é enviado ou salvo externamente</span>
+    </footer>
   </main>
 </body>
 </html>

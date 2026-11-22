@@ -15,7 +15,7 @@ from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from . import __version__
 from .audio import (AudioValidationError, CLASS_NAMES, MAX_DURATION_S, MAX_UPLOAD_BYTES,
-                    decode_audio, extract_features, quality_warnings, select_segment, spectrogram_png)
+                    contrast_png, decode_audio, extract_features, quality_warnings, select_segment, spectrogram_png)
 from .predictor import ModelUnavailableError, Predictor
 
 LIMITATIONS = [
@@ -127,9 +127,9 @@ def create_app(project_root: Path | None = None, model_dir: Path | None = None) 
                 features = extract_features(selected, audio.sample_rate)
                 with application.state.prediction_lock:
                     prediction = predictor.predict_features(features)
-                return prediction, spectrogram_png(features)
+                return prediction, spectrogram_png(features), contrast_png(features)
 
-            prediction, png = await run_in_threadpool(compute)
+            prediction, png, contrast = await run_in_threadpool(compute)
         except AudioValidationError as exc:
             raise HTTPException(422, str(exc)) from exc
         except ModelUnavailableError as exc:
@@ -138,8 +138,9 @@ def create_app(project_root: Path | None = None, model_dir: Path | None = None) 
                 "audio": {"duration_s": audio.duration_s, "sample_rate": audio.sample_rate, "channels": audio.channels},
                 "segment": {"start": start, "end": end, "duration_s": end - start},
                 "quality": {"warnings": quality_warnings(selected, audio.sample_rate)},
-                "spectrogram_png": png, "model": {"name": predictor.metadata.get("name", "CNN respiratória"),
-                                                 "version": predictor.metadata.get("version", __version__)},
+                "spectrogram_png": png, "contrast_png": contrast,
+                "model": {"name": predictor.metadata.get("name", "CNN respiratória"),
+                          "version": predictor.metadata.get("version", __version__)},
                 "limitations": LIMITATIONS}
 
     application.add_middleware(TrustedHostMiddleware, allowed_hosts=["127.0.0.1", "localhost", "[::1]", "testserver"])

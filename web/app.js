@@ -20,7 +20,8 @@
     "contrastImage", "contrastUnavailable", "contrastTabBtn", "techTelemetry", "qualityMessage",
     "downloadResult", "copySummary", "sessionHistoryWrap", "sessionHistory", "clearHistory",
     "metricSwitcher", "perfSubtitle", "modelComparisonBars", "ciNote",
-    "confusionMatrix", "perClassTable", "datasetPills", "limitationsList"
+    "confusionMatrix", "perClassTable", "datasetPills", "limitationsList",
+    "deviceCard", "deviceGrid"
   ].map((id) => [id, byId(id)]));
 
   const LABELS = ["Sem sibilos/estertores", "Estertores", "Sibilos", "Ambos"];
@@ -213,6 +214,62 @@
         el.limitationsList.append(li);
       });
     }
+
+    renderDeviceGeneralization(metrics.per_device);
+  }
+
+  function renderDeviceGeneralization(perDevice) {
+    if (!el.deviceCard || !el.deviceGrid) return;
+    const entries = perDevice && typeof perDevice === "object" ? Object.entries(perDevice) : [];
+    if (!entries.length) {
+      hide(el.deviceCard, true);
+      return;
+    }
+    el.deviceGrid.replaceChildren();
+    entries.sort((a, b) => (b[1]?.cycles || 0) - (a[1]?.cycles || 0)).forEach(([dev, info]) => {
+      if (!info || !isNum(info.accuracy)) return;
+      const card = document.createElement("div");
+      card.className = "device-item";
+
+      const top = document.createElement("div");
+      top.className = "device-top";
+      const left = document.createElement("div");
+      const name = document.createElement("div");
+      name.className = "device-name";
+      name.textContent = dev;
+      const cyc = document.createElement("div");
+      cyc.className = "device-cycles";
+      cyc.textContent = `${new Intl.NumberFormat("pt-BR").format(info.cycles || 0)} ciclos no teste`;
+      left.append(name, cyc);
+      top.append(left);
+
+      if (isNum(info.accuracy_v1_1)) {
+        const diffPp = (info.accuracy - info.accuracy_v1_1) * 100;
+        const badge = document.createElement("span");
+        badge.className = `device-gain ${diffPp >= 0 ? "pos" : "neg"}`;
+        badge.textContent = `${diffPp >= 0 ? "+" : ""}${dec(diffPp, 1)} p.p.`;
+        top.append(badge);
+      }
+      card.append(top);
+
+      const addBar = (label, value, cls) => {
+        const row = document.createElement("div");
+        row.className = `device-bar-row ${cls}`;
+        const tag = document.createElement("span"); tag.textContent = label;
+        const track = document.createElement("div"); track.className = "device-track";
+        const fill = document.createElement("div"); fill.className = "device-fill";
+        fill.style.width = `${Math.max(2, Math.min(100, value * 100))}%`;
+        track.append(fill);
+        const val = document.createElement("strong"); val.textContent = pct(value, 1);
+        row.append(tag, track, val);
+        card.append(row);
+      };
+
+      if (isNum(info.accuracy_v1_1)) addBar("v1.1", info.accuracy_v1_1, "is-old");
+      addBar("v2.0", info.accuracy, "is-cur");
+      el.deviceGrid.append(card);
+    });
+    hide(el.deviceCard, el.deviceGrid.children.length === 0);
   }
 
   function renderModelBars() {

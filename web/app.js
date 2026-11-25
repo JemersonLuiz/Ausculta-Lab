@@ -17,7 +17,9 @@
     "predictionCard", "predictionLabel", "predictionMeta", "confidenceBadge", "marginBadge",
     "referenceComparison", "crackleProb", "crackleBar", "wheezeProb", "wheezeBar",
     "scoreList", "acousticNote", "spectrogramImage", "spectrogramUnavailable",
-    "contrastImage", "contrastUnavailable", "contrastTabBtn", "techTelemetry", "qualityMessage",
+    "contrastImage", "contrastUnavailable", "contrastTabBtn", "zoomEvidenceBtn",
+    "imageLightbox", "lightboxTitle", "lightboxDownload", "lightboxClose", "lightboxImage", "lightboxCaption",
+    "techTelemetry", "qualityMessage",
     "downloadResult", "copySummary", "sessionHistoryWrap", "sessionHistory", "clearHistory",
     "metricSwitcher", "perfSubtitle", "modelComparisonBars", "ciNote",
     "confusionMatrix", "perClassTable", "datasetPills", "limitationsList",
@@ -73,6 +75,8 @@
     // Waveform interaction state
     dragMode: null, // "start" | "end" | "new" | null
     dragAnchor: 0,
+    activeTab: "spec",
+    lightboxKind: "spec",
   };
 
   const hide = (node, yes = true) => node && node.classList.toggle("hidden", yes);
@@ -887,7 +891,16 @@
   }
 
   /* ======================== RENDER RESULT & HISTORY ======================== */
+  function syncZoomButton() {
+    if (!el.zoomEvidenceBtn) return;
+    const isImgTab = state.activeTab === "spec" || state.activeTab === "contrast";
+    const imgEl = state.activeTab === "contrast" ? el.contrastImage : el.spectrogramImage;
+    const hasSrc = Boolean(imgEl && imgEl.getAttribute("src"));
+    hide(el.zoomEvidenceBtn, !(isImgTab && hasSrc));
+  }
+
   function setEvidenceTab(tabName) {
+    state.activeTab = tabName;
     document.querySelectorAll(".tab-btn").forEach((b) => {
       const active = b.dataset.tab === tabName;
       b.classList.toggle("active", active);
@@ -896,6 +909,35 @@
     document.querySelectorAll(".tab-panel").forEach((p) => {
       hide(p, p.dataset.panel !== tabName);
     });
+    syncZoomButton();
+  }
+
+  function openEvidenceLightbox(kind = state.activeTab) {
+    if (!el.imageLightbox) return;
+    const useContrast = kind === "contrast";
+    const srcImg = useContrast ? el.contrastImage : el.spectrogramImage;
+    const src = srcImg?.getAttribute("src");
+    if (!src) return;
+    state.lightboxKind = useContrast ? "contrast" : "spec";
+    el.lightboxTitle.textContent = useContrast
+      ? "Mapa de contraste acústico (CMN invariante a estetoscópio)"
+      : "Espectrograma log-Mel filtrado (80–1.200 Hz)";
+    el.lightboxImage.src = src;
+    el.lightboxImage.alt = srcImg.alt || el.lightboxTitle.textContent;
+    el.lightboxCaption.textContent = useContrast
+      ? "Realce após subtração da resposta estacionária do microfone: cristas horizontais em ciano indicam sibilos; transientes verticais em âmbar indicam estertores."
+      : "Espectrograma log-Mel na banda respiratória: faixas horizontais sustentadas sugerem sibilos e impulsos verticais curtos sugerem estertores.";
+    if (typeof el.imageLightbox.showModal === "function") {
+      if (!el.imageLightbox.open) el.imageLightbox.showModal();
+    } else {
+      el.imageLightbox.setAttribute("open", "");
+    }
+  }
+
+  function closeEvidenceLightbox() {
+    if (!el.imageLightbox) return;
+    if (typeof el.imageLightbox.close === "function" && el.imageLightbox.open) el.imageLightbox.close();
+    else el.imageLightbox.removeAttribute("open");
   }
 
   function renderResult(result, contextInfo = null) {
@@ -1174,6 +1216,23 @@
   el.analyzeButton.addEventListener("click", analyze);
 
   document.querySelectorAll(".tab-btn").forEach((b) => b.addEventListener("click", () => setEvidenceTab(b.dataset.tab)));
+  el.zoomEvidenceBtn?.addEventListener("click", () => openEvidenceLightbox(state.activeTab));
+  el.spectrogramImage?.addEventListener("click", () => openEvidenceLightbox("spec"));
+  el.contrastImage?.addEventListener("click", () => openEvidenceLightbox("contrast"));
+  el.lightboxClose?.addEventListener("click", closeEvidenceLightbox);
+  el.imageLightbox?.addEventListener("click", (e) => {
+    if (e.target === el.imageLightbox) closeEvidenceLightbox();
+  });
+  el.lightboxDownload?.addEventListener("click", () => {
+    const src = el.lightboxImage?.getAttribute("src");
+    if (!src) return;
+    const link = document.createElement("a");
+    link.href = src;
+    link.download = state.lightboxKind === "contrast" ? "ausculta-contraste-cmn.png" : "ausculta-espectrograma.png";
+    document.body.append(link);
+    link.click();
+    link.remove();
+  });
 
   el.downloadResult.addEventListener("click", () => {
     if (!state.result) return;

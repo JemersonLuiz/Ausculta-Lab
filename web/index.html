@@ -280,6 +280,7 @@
               <button class="tab-btn active" type="button" role="tab" aria-selected="true" data-tab="spec">Espectrograma</button>
               <button class="tab-btn" type="button" role="tab" aria-selected="false" data-tab="contrast" id="contrastTabBtn">Contraste acústico</button>
               <button class="tab-btn" type="button" role="tab" aria-selected="false" data-tab="tech">Detalhes técnicos</button>
+              <button class="chip-button tab-zoom" type="button" id="zoomEvidenceBtn" title="Ampliar imagem em tela cheia">⤢ Ampliar</button>
             </div>
 
             <div class="tab-panel" data-panel="spec">
@@ -413,5 +414,22 @@
       <span>Processamento 100% local · Nenhum áudio é enviado ou salvo externamente</span>
     </footer>
   </main>
+
+  <dialog class="lightbox" id="imageLightbox" aria-labelledby="lightboxTitle">
+    <div class="lightbox-head">
+      <div>
+        <p class="eyebrow">Inspeção em alta resolução</p>
+        <h3 id="lightboxTitle">Espectrograma</h3>
+      </div>
+      <div class="lightbox-actions">
+        <button class="button button-quiet" type="button" id="lightboxDownload">Baixar PNG ↓</button>
+        <button class="icon-button" type="button" id="lightboxClose" aria-label="Fechar visualização">×</button>
+      </div>
+    </div>
+    <div class="lightbox-body">
+      <img id="lightboxImage" alt="">
+      <p class="evidence-caption" id="lightboxCaption"></p>
+    </div>
+  </dialog>
 </body>
 </html>

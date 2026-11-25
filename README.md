@@ -1,3 +1,5 @@
+<div align="center">
+
 # Ausculta Lab
 
 **Protótipo acadêmico local para classificação de ciclos respiratórios** a partir de gravações de ausculta pulmonar, com processamento de áudio, redes neurais convolucionais e interface web totalmente offline.
@@ -10,6 +12,8 @@
 [![Plataforma](https://img.shields.io/badge/plataforma-Windows-0078D4?logo=windows&logoColor=white)](#instalação-no-windows)
 [![Status](https://img.shields.io/badge/status-experimental-orange)](#limitações)
 [![Offline](https://img.shields.io/badge/interface-100%25%20offline-success)](web/)
+
+</div>
 
 ---
 

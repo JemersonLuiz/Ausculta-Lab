@@ -6,7 +6,7 @@
     "versionChip", "modelState", "modelStateText", "globalMessage",
     "kpiAccuracy", "kpiMacroF1", "kpiIcbhi", "kpiCycles",
     "dropzone", "uploadButton", "uploadButtonText", "audioFile", "uploadLimits",
-    "quickExamples", "exampleSelect", "loadExample", "audioWorkspace",
+    "quickExamples", "exampleSelect", "loadExample", "loadAndAnalyze", "audioWorkspace",
     "fileName", "fileMeta", "clearFile", "waveform", "waveformTooltip",
     "waveformMid", "waveformEnd", "resetFullCycle",
     "playSegment", "playSegmentIcon", "playSegmentText",
@@ -23,7 +23,7 @@
     "downloadResult", "copySummary", "sessionHistoryWrap", "sessionHistory", "clearHistory",
     "metricSwitcher", "perfSubtitle", "modelComparisonBars", "ciNote",
     "confusionMatrix", "perClassTable", "datasetPills", "limitationsList",
-    "deviceCard", "deviceGrid"
+    "deviceCard", "deviceGrid", "toastNotice", "backToTop"
   ].map((id) => [id, byId(id)]));
 
   const LABELS = ["Sem sibilos/estertores", "Estertores", "Sibilos", "Ambos"];
@@ -77,6 +77,7 @@
     dragAnchor: 0,
     activeTab: "spec",
     lightboxKind: "spec",
+    toastTimer: null,
   };
 
   const hide = (node, yes = true) => node && node.classList.toggle("hidden", yes);
@@ -113,6 +114,26 @@
     el.globalMessage.textContent = msg;
     hide(el.globalMessage, !msg);
     if (msg) el.globalMessage.scrollIntoView({ block: "nearest" });
+  }
+
+  function showToast(msg) {
+    if (!el.toastNotice || !msg) return;
+    el.toastNotice.textContent = msg;
+    hide(el.toastNotice, false);
+    if (state.toastTimer) clearTimeout(state.toastTimer);
+    state.toastTimer = setTimeout(() => hide(el.toastNotice, true), 2400);
+  }
+
+  function syncQuickPills() {
+    if (!el.quickExamples) return;
+    const activeCat = state.activeExample
+      ? (typeof state.activeExample.label === "number" ? LABELS[state.activeExample.label] : state.activeExample.label)
+      : null;
+    el.quickExamples.querySelectorAll(".quick-pill").forEach((btn) => {
+      const isActive = Boolean(activeCat && btn.dataset.category === activeCat);
+      btn.classList.toggle("active", isActive);
+      btn.setAttribute("aria-pressed", String(isActive));
+    });
   }
 
   /* ======================== STATUS & PERFORMANCE DASHBOARD ======================== */
@@ -380,6 +401,8 @@
         const btn = document.createElement("button");
         btn.type = "button";
         btn.className = "quick-pill";
+        btn.dataset.category = cat;
+        btn.setAttribute("aria-pressed", "false");
         const dot = document.createElement("span");
         dot.className = `dot dot-${clsIdx}`;
         btn.append(dot, document.createTextNode(SHORT_LABELS[clsIdx]));
@@ -395,28 +418,35 @@
       el.exampleSelect.replaceChildren(new Option("Sem exemplos disponíveis", ""));
       el.exampleSelect.disabled = true;
       el.loadExample.disabled = true;
+      if (el.loadAndAnalyze) el.loadAndAnalyze.disabled = true;
     }
   }
 
-  async function loadExample(explicitIdx = null) {
+  async function loadExample(explicitIdx = null, autoAnalyze = false) {
     const idx = explicitIdx !== null ? explicitIdx : Number(el.exampleSelect.value);
     const example = state.examples[idx];
     if (!example || state.busy || state.loading) return;
     state.loading = true;
     updateControls();
     el.loadExample.textContent = "Abrindo…";
+    let loadedOk = false;
     try {
       const res = await fetch(`/api/examples/${encodeURIComponent(String(example.id))}/audio`);
       if (!res.ok) throw new Error("Não foi possível carregar o exemplo de teste.");
       const blob = await res.blob();
       const name = String(example.name || `exemplo-${example.id}.wav`).replace(/[\\/]/g, "_");
       await loadFile(new File([blob], /\.wav$/i.test(name) ? name : `${name}.wav`, { type: "audio/wav" }), example);
+      loadedOk = Boolean(state.file && state.decoded);
+      if (loadedOk) showToast(`Exemplo carregado: ${example.name || example.label}`);
     } catch (err) {
       showMessage(err.message);
     } finally {
       state.loading = false;
       el.loadExample.textContent = "Carregar";
       updateControls();
+    }
+    if (autoAnalyze && loadedOk && !el.analyzeButton.disabled) {
+      await analyze();
     }
   }
 
@@ -470,10 +500,12 @@
     el.audioFile.disabled = locked;
     el.clearFile.disabled = locked;
     el.loadExample.disabled = !state.examples.length || locked;
+    if (el.loadAndAnalyze) el.loadAndAnalyze.disabled = !state.examples.length || !ready || locked;
     el.exampleSelect.disabled = !state.examples.length || locked;
     el.dropzone.classList.toggle("has-audio", Boolean(state.file));
     el.uploadButtonText.textContent = state.file ? "Trocar arquivo WAV" : "Selecionar arquivo";
     el.quickExamples.querySelectorAll("button").forEach((b) => { b.disabled = locked; });
+    syncQuickPills();
 
     el.analyzeButtonText.textContent = state.busy ? "Analisando o áudio…" : "Analisar ciclo respiratório";
     el.analyzeHelp.textContent = state.busy
@@ -1213,6 +1245,7 @@
   });
 
   el.loadExample.addEventListener("click", () => loadExample());
+  el.loadAndAnalyze?.addEventListener("click", () => loadExample(null, true));
   el.analyzeButton.addEventListener("click", analyze);
 
   document.querySelectorAll(".tab-btn").forEach((b) => b.addEventListener("click", () => setEvidenceTab(b.dataset.tab)));
@@ -1232,6 +1265,7 @@
     document.body.append(link);
     link.click();
     link.remove();
+    showToast("Imagem PNG salva.");
   });
 
   el.downloadResult.addEventListener("click", () => {
@@ -1242,6 +1276,7 @@
     link.href = url; link.download = "ausculta-resultado.json";
     document.body.append(link); link.click(); link.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
+    showToast("Resultado JSON exportado.");
   });
 
   el.copySummary.addEventListener("click", async () => {
@@ -1258,6 +1293,7 @@
     try {
       await navigator.clipboard.writeText(lines.join("\n"));
       el.copySummary.textContent = "✓ Copiado!";
+      showToast("Resumo copiado para a área de transferência.");
       setTimeout(() => { el.copySummary.textContent = "Copiar resumo"; }, 1800);
     } catch {
       showMessage("Não foi possível copiar para a área de transferência.");
@@ -1274,22 +1310,55 @@
     });
   });
 
+  function setActiveNav(sectionId) {
+    document.querySelectorAll(".nav-link").forEach((item) => {
+      const match = item.getAttribute("href") === `#${sectionId}`;
+      item.classList.toggle("active", match);
+      if (match) item.setAttribute("aria-current", "location");
+      else item.removeAttribute("aria-current");
+    });
+  }
+
   document.querySelectorAll(".nav-link").forEach((link) => {
     link.addEventListener("click", () => {
-      document.querySelectorAll(".nav-link").forEach((item) => item.classList.remove("active"));
-      link.classList.add("active");
+      const href = link.getAttribute("href") || "";
+      if (href.startsWith("#")) setActiveNav(href.slice(1));
     });
   });
+
+  if (typeof IntersectionObserver === "function") {
+    const sections = ["analysis", "performance", "help"].map((id) => byId(id)).filter(Boolean);
+    const spy = new IntersectionObserver((entries) => {
+      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+      if (visible.length) setActiveNav(visible[0].target.id);
+    }, { rootMargin: "-25% 0px -55% 0px", threshold: [0.1, 0.35, 0.6] });
+    sections.forEach((sec) => spy.observe(sec));
+  }
+
+  el.backToTop?.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+  window.addEventListener("scroll", () => {
+    hide(el.backToTop, window.scrollY < 420);
+  }, { passive: true });
 
   window.addEventListener("keydown", (e) => {
     const tag = document.activeElement?.tagName;
     if (["INPUT", "SELECT", "TEXTAREA", "BUTTON"].includes(tag)) return;
+    if (el.imageLightbox?.open) return;
     if (e.code === "Space" && state.file && !segmentError()) {
       e.preventDefault();
       toggleStudioPlay();
     } else if (e.code === "Enter" && !el.analyzeButton.disabled) {
       e.preventDefault();
       analyze();
+    } else if ((e.key === "[" || e.key === "]") && state.examples.length && !state.busy && !state.loading) {
+      e.preventDefault();
+      const curIdx = Number(el.exampleSelect.value);
+      const base = Number.isFinite(curIdx) ? curIdx : 0;
+      const nextIdx = (base + (e.key === "]" ? 1 : -1) + state.examples.length) % state.examples.length;
+      el.exampleSelect.value = String(nextIdx);
+      loadExample(nextIdx);
     }
   });
 

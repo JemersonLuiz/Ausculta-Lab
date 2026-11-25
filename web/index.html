@@ -107,6 +107,7 @@
               <option value="">Carregando exemplos…</option>
             </select>
             <button class="button button-quiet" id="loadExample" type="button" disabled>Carregar</button>
+            <button class="button button-quiet" id="loadAndAnalyze" type="button" disabled title="Carregar o exemplo selecionado e classificar em seguida">Analisar direto ↗</button>
           </div>
         </div>
 
@@ -225,6 +226,7 @@
           <div class="shortcuts-hint">
             <span><kbd>Espaço</kbd> ouvir trecho</span>
             <span><kbd>Enter</kbd> analisar</span>
+            <span><kbd>[</kbd> / <kbd>]</kbd> trocar exemplo</span>
           </div>
         </div>
 
@@ -431,5 +433,8 @@
       <p class="evidence-caption" id="lightboxCaption"></p>
     </div>
   </dialog>
+
+  <div class="toast hidden" id="toastNotice" role="status" aria-live="polite"></div>
+  <button class="back-to-top hidden" id="backToTop" type="button" aria-label="Voltar ao topo" title="Voltar ao topo">↑</button>
 </body>
 </html>

@@ -1340,6 +1340,7 @@
   });
   window.addEventListener("scroll", () => {
     hide(el.backToTop, window.scrollY < 420);
+    document.querySelector(".site-header")?.classList.toggle("scrolled", window.scrollY > 8);
   }, { passive: true });
 
   window.addEventListener("keydown", (e) => {
@@ -1361,6 +1362,38 @@
       loadExample(nextIdx);
     }
   });
+
+  /* ======================== ANIMAÇÕES ======================== */
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.documentElement.classList.add("motion-ready");
+
+  // Revela blocos (desempenho, ajuda, rodapé) conforme entram na tela.
+  const revealTargets = document.querySelectorAll(".reveal");
+  if (typeof IntersectionObserver === "function" && !reduceMotion) {
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("in");
+        revealObserver.unobserve(entry.target);
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+    revealTargets.forEach((node) => revealObserver.observe(node));
+  } else {
+    revealTargets.forEach((node) => node.classList.add("in"));
+  }
+
+  // Dá um leve "pulso" nos valores que mudam (KPIs, previsão, probabilidades, status).
+  if (typeof MutationObserver === "function") {
+    document.querySelectorAll(".kpi-value, #predictionLabel, #crackleProb, #wheezeProb, #resultTag, #modelStateText")
+      .forEach((node) => {
+        const observer = new MutationObserver(() => {
+          node.classList.remove("pop");
+          void node.offsetWidth; // reinicia a animação
+          node.classList.add("pop");
+        });
+        observer.observe(node, { childList: true, characterData: true, subtree: true });
+      });
+  }
 
   window.addEventListener("resize", drawWaveform);
   window.addEventListener("beforeunload", () => {

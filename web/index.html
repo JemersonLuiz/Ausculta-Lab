@@ -219,7 +219,7 @@
 
         <div class="result-empty" id="resultEmpty">
           <div class="signal-art" aria-hidden="true">
-            <svg viewBox="0 0 100 74"><path d="M0 37h16l7-14 9 31 10-43 11 52 9-37 8 20 7-9h23"/></svg>
+            <svg viewBox="0 0 100 74"><path pathLength="1" d="M0 37h16l7-14 9 31 10-43 11 52 9-37 8 20 7-9h23"/></svg>
           </div>
           <h3>Pronto para classificar</h3>
           <p>Carregue um WAV ou clique em um dos exemplos reais à esquerda para visualizar as probabilidades, detecção de estertores/sibilos e o espectrograma.</p>
@@ -321,7 +321,7 @@
 
     <!-- SEÇÃO 03: DESEMPENHO REAL & VALIDAÇÃO CIENTÍFICA -->
     <section class="performance-section" id="performance" aria-labelledby="perfTitle">
-      <div class="section-header">
+      <div class="section-header reveal">
         <div>
           <p class="eyebrow">03 / Evidências científicas no conjunto reservado</p>
           <h2 id="perfTitle">Desempenho e comparação de modelos</h2>
@@ -335,14 +335,14 @@
       </div>
 
       <div class="perf-grid">
-        <article class="panel perf-card">
+        <article class="panel perf-card reveal">
           <h3>Evolução entre modelos</h3>
           <p class="helper" id="perfSubtitle">Avaliação estrita por paciente em 2.756 ciclos reais de 49 pacientes reservados.</p>
           <div class="model-bars" id="modelComparisonBars"></div>
           <p class="ci-note" id="ciNote"></p>
         </article>
 
-        <article class="panel perf-card">
+        <article class="panel perf-card reveal">
           <h3>Matriz de confusão (modelo ativo)</h3>
           <p class="helper">Linhas: categoria anotada · Colunas: categoria prevista no teste reservado.</p>
           <div class="cm-wrap" id="confusionMatrix"></div>
@@ -350,7 +350,7 @@
       </div>
 
       <div class="perf-grid secondary">
-        <article class="panel perf-card">
+        <article class="panel perf-card reveal">
           <h3>Desempenho por categoria acústica</h3>
           <div class="table-scroll">
             <table class="metrics-table" id="perClassTable">
@@ -369,14 +369,14 @@
           </div>
         </article>
 
-        <article class="panel perf-card">
+        <article class="panel perf-card reveal">
           <h3>Protocolo, base e limitações</h3>
           <div class="dataset-pills" id="datasetPills"></div>
           <ul class="limitations-list" id="limitationsList"></ul>
         </article>
       </div>
 
-      <article class="panel perf-card device-card hidden" id="deviceCard">
+      <article class="panel perf-card device-card reveal hidden" id="deviceCard">
         <div class="device-card-head">
           <div>
             <h3>Generalização por estetoscópio (v1.1 → v2.0)</h3>
@@ -392,7 +392,7 @@
     </section>
 
     <!-- SEÇÃO 04: AJUDA -->
-    <section class="help-panel" id="help" aria-label="Ajuda para usar a análise">
+    <section class="help-panel reveal" id="help" aria-label="Ajuda para usar a análise">
       <details open>
         <summary>Como selecionar um ciclo respiratório com precisão?</summary>
         <p>Clique e arraste diretamente sobre a forma de onda ou movimente as alças laterais. Use o <strong>Filtro pulmonar (80–1600 Hz)</strong> e a velocidade <strong>0,75×</strong> para destacar estertores e sibilos. Em gravações longas, clique em <strong>Sugerir ciclos</strong> para localizar respirações candidatas automaticamente.</p>
@@ -411,7 +411,7 @@
       </details>
     </section>
 
-    <footer class="page-footer">
+    <footer class="page-footer reveal">
       <span>Ausculta Lab · Protótipo acadêmico experimental (sem validação clínica)</span>
       <span>Processamento 100% local · Nenhum áudio é enviado ou salvo externamente</span>
     </footer>

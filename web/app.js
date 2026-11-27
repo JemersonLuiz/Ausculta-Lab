@@ -21,7 +21,7 @@
     "imageLightbox", "lightboxTitle", "lightboxDownload", "lightboxClose", "lightboxImage", "lightboxCaption",
     "techTelemetry", "qualityMessage",
     "downloadResult", "copySummary", "sessionHistoryWrap", "sessionHistory", "clearHistory",
-    "statAccuracy", "statMacroF1", "statIcbhi", "statCycles",
+    "statAccuracy", "statCorrectCount", "statMacroF1", "statIcbhi", "statBalancedAccuracy",
     "metricSwitcher", "perfSubtitle", "modelComparisonBars", "ciNote",
     "confusionMatrix", "perClassTable", "datasetSummary", "limitationsList",
     "deviceSection", "deviceGrid", "toastNotice", "backToTop"
@@ -210,7 +210,18 @@
     if (el.statAccuracy) el.statAccuracy.textContent = isNum(metrics.accuracy) ? pct(metrics.accuracy, 1) : "-";
     if (el.statMacroF1) el.statMacroF1.textContent = isNum(metrics.macro_f1) ? dec(metrics.macro_f1, 3) : "-";
     if (el.statIcbhi) el.statIcbhi.textContent = isNum(metrics.icbhi_score) ? pct(metrics.icbhi_score, 1) : "-";
-    if (el.statCycles) el.statCycles.textContent = isNum(dataset.cycles) ? `${intFmt(dataset.cycles)} ciclos` : "-";
+    if (el.statBalancedAccuracy) el.statBalancedAccuracy.textContent = isNum(metrics.balanced_accuracy) ? pct(metrics.balanced_accuracy, 2) : "-";
+    if (el.statCorrectCount) {
+      const classes = metrics.per_class || [];
+      const matrix = metrics.confusion_matrix;
+      const hasCounts = Array.isArray(matrix) && classes.length > 0 && matrix.length === classes.length &&
+        matrix.every((row, index) => Array.isArray(row) && Number.isInteger(row[index]));
+      el.statCorrectCount.textContent = "";
+      if (hasCounts && metrics.n_cycles > 0) {
+        const correct = matrix.reduce((sum, row, index) => sum + row[index], 0);
+        el.statCorrectCount.textContent = `${intFmt(correct)} acertos em ${intFmt(metrics.n_cycles)} ciclos`;
+      }
+    }
 
     if (el.perfSubtitle && isNum(metrics.n_cycles)) {
       const testPatients = dataset.splits?.test?.patients;
@@ -1289,7 +1300,7 @@
     const sorted = [...scores].sort((a, b) => b.score - a.score);
     const top1 = sorted[0]?.score ?? 0;
     const top2 = sorted[1]?.score ?? 0;
-    if (el.confidenceStat) el.confidenceStat.textContent = `Escore principal: ${pct(top1, 1)}`;
+    if (el.confidenceStat) el.confidenceStat.textContent = `Pontuação da classe prevista neste trecho: ${pct(top1, 1)}`;
     if (el.marginStat) el.marginStat.textContent = `Margem +${decAuto((top1 - top2) * 100, 1)} p.p.`;
 
     if (el.predictionMeta) {
@@ -1830,7 +1841,7 @@
 
   if (typeof MutationObserver === "function") {
     const popTargets = [
-      el.statAccuracy, el.statMacroF1, el.statIcbhi, el.statCycles,
+      el.statAccuracy, el.statMacroF1, el.statIcbhi, el.statBalancedAccuracy,
       el.predictionLabel, el.crackleProb, el.wheezeProb, el.resultStateText, el.modelStateText,
     ].filter(Boolean);
     popTargets.forEach((node) => {

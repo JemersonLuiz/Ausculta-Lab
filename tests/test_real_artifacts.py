@@ -7,7 +7,7 @@ from fastapi.testclient import TestClient
 import numpy as np
 import pandas as pd
 import pytest
-from sklearn.metrics import confusion_matrix, f1_score
+from sklearn.metrics import balanced_accuracy_score, confusion_matrix, f1_score
 
 from cardio_audio.api import create_app
 from cardio_audio.audio import decode_audio, select_segment
@@ -34,6 +34,9 @@ def test_real_metrics_are_recomputable_from_reserved_predictions(real_project):
     assert set(predictions.split) == {"test"}
     assert len(predictions) > 0
     for name, column in [("cnn", "cnn_prediction"), ("random_forest", "random_forest_prediction")]:
+        assert metrics[name]["test"]["accuracy"] == pytest.approx((predictions.label == predictions[column]).mean())
+        assert metrics[name]["test"]["balanced_accuracy"] == pytest.approx(
+            balanced_accuracy_score(predictions.label, predictions[column]))
         expected = f1_score(predictions.label, predictions[column], labels=list(range(4)),
                             average="macro", zero_division=0)
         assert metrics[name]["test"]["macro_f1"] == pytest.approx(expected)
@@ -76,6 +79,21 @@ def test_real_examples_come_only_from_the_test_partition(real_project):
         assert len(match) == 1
         assert match.iloc[0].split == "test"
         assert "não selecionado pelo acerto" in item["selection"]
+
+
+def test_packaged_examples_reproduce_reported_predictions(real_project):
+    predictor = Predictor(real_project / "models")
+    predictions = pd.read_csv(real_project / "reports/test_predictions.csv")
+    predictions = predictions.set_index(["recording_id", "start_s", "end_s"])
+    assert predictions.index.is_unique
+    for item in read_json(real_project / "examples/index.json"):
+        key = (item["recording_id"], item["source_start_s"], item["source_end_s"])
+        reported = predictions.loc[key]
+        assert predictor.metadata["classes"][int(reported["label"])] == item["label"]
+        audio = decode_audio((real_project / "examples" / item["file"]).read_bytes())
+        samples = select_segment(audio, item["start"], item["end"])
+        predicted = predictor.predict(samples, audio.sample_rate)
+        assert predicted["index"] == reported["cnn_prediction"], item["file"]
 
 
 def test_real_api_prediction_matches_loaded_model_and_is_repeatable(real_project):

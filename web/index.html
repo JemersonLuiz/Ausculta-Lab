@@ -207,7 +207,7 @@
               <img class="idle-plate theme-light-only" src="/assets/acoustic-idle-plate.png" width="600" height="400" alt="Ilustração de ondas acústicas concêntricas em repouso" loading="lazy" decoding="async">
               <img class="idle-plate theme-dark-only" src="/assets/acoustic-idle-plate-dark.png" width="600" height="400" alt="Ilustração de ondas acústicas concêntricas em repouso" loading="lazy" decoding="async">
               <h4 class="result-empty-title">Pronto para classificar</h4>
-              <p>Carregue uma gravação WAV ou selecione um exemplo real ICBHI ao lado para inspecionar probabilidades, presença de estertores e sibilos, e espectrograma.</p>
+              <p>Carregue um WAV ou selecione um exemplo ICBHI para ver a classificação do trecho e seu espectrograma.</p>
               <p class="shortcuts-row">Atalhos: <kbd>Espaço</kbd> ouvir trecho, <kbd>Enter</kbd> analisar, <kbd>[</kbd> e <kbd>]</kbd> trocar exemplo.</p>
             </div>
 
@@ -352,8 +352,9 @@
 
         <div class="perf-ledger reveal" id="perfSummaryBand" role="region" aria-label="Indicadores principais do modelo ativo">
           <div class="ledger-cell">
-            <span class="ledger-label">Acurácia no teste</span>
+            <span class="ledger-label">Acurácia global no teste</span>
             <strong class="ledger-value" id="statAccuracy">-</strong>
+            <small id="statCorrectCount"></small>
           </div>
           <div class="ledger-cell">
             <span class="ledger-label">Macro-F1</span>
@@ -364,8 +365,9 @@
             <strong class="ledger-value" id="statIcbhi">-</strong>
           </div>
           <div class="ledger-cell">
-            <span class="ledger-label">Base auditada</span>
-            <strong class="ledger-value" id="statCycles">-</strong>
+            <span class="ledger-label">Acurácia balanceada</span>
+            <strong class="ledger-value" id="statBalancedAccuracy">-</strong>
+            <small>Média de acerto das quatro classes</small>
           </div>
         </div>
 
